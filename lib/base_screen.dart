@@ -1,5 +1,5 @@
 import 'package:covid19_tracker/providers/app_theme.dart';
-import 'package:covid19_tracker/views/splash_screen.dart';
+import 'package:covid19_tracker/views/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
