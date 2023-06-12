@@ -5,8 +5,8 @@ class PreventionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: const PageStorageKey<String>('prevention'),
+    return const Scaffold(
+      key: PageStorageKey<String>('prevention'),
       body: SafeArea(child: Text('data')),
     );
   }
