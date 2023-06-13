@@ -1,3 +1,4 @@
+import 'package:covid19_tracker/enums/loading_state.dart';
 import 'package:covid19_tracker/providers/countries_data.dart';
 import 'package:covid19_tracker/utils/app_navigator.dart';
 import 'package:covid19_tracker/app_layout.dart';
@@ -19,9 +20,14 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     final CountriesDataProvider countriesDataProvider =
         Provider.of<CountriesDataProvider>(context, listen: false);
-    if (countriesDataProvider.countries == null) {
-      countriesDataProvider.initData().then((value) =>
-          AppNavigator().pushReplacement(context, const AppLayout()));
+    if (countriesDataProvider.loadingState == LoadingState.toBeLoaded) {
+      Future.delayed(Duration.zero, () {
+        countriesDataProvider.changeLoadingState(LoadingState.loading);
+        countriesDataProvider.initData().then((value) {
+          countriesDataProvider.changeLoadingState(LoadingState.loaded);
+          return AppNavigator().pushReplacement(context, const AppLayout());
+        });
+      });
     }
     super.initState();
   }

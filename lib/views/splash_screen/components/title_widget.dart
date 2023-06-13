@@ -12,6 +12,7 @@ class TitleWidget extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: Center(
                 child: Text('COVID-19 Tracker',
-                    style: TextStyle(fontSize: textFontSize))));
+                    style: TextStyle(
+                        fontSize: textFontSize, fontWeight: FontWeight.w900))));
       }));
 }

@@ -1,5 +1,6 @@
 import 'package:covid19_tracker/database_services/countries.dart';
 import 'package:covid19_tracker/database_services/geo_location.dart';
+import 'package:covid19_tracker/enums/loading_state.dart';
 import 'package:covid19_tracker/models/countries.dart';
 import 'package:covid19_tracker/models/country_data.dart';
 import 'package:covid19_tracker/models/geo_location.dart';
@@ -12,17 +13,24 @@ class CountriesDataProvider extends ChangeNotifier {
   String? _currCountry;
   String? _currState;
   String? _currGeoState;
+  LoadingState _loadingState = LoadingState.toBeLoaded;
 
   Countries? get countries => _countries;
   String? get currCountry => _currCountry;
   String? get currState => _currState;
   CountryData? get countryData => _countryData;
+  LoadingState get loadingState => _loadingState;
 
   Future initData() async {
     _countries = await CountriesDatabaseService().fetchCountriesList();
     final country = await getCurrentLocation();
     await fetchCountryData(country);
+    _loadingState = LoadingState.loaded;
+    notifyListeners();
+  }
 
+  changeLoadingState(LoadingState state) {
+    _loadingState = state;
     notifyListeners();
   }
 
@@ -39,6 +47,8 @@ class CountriesDataProvider extends ChangeNotifier {
   }
 
   Future<String> getCurrentLocation() async {
+    _loadingState = LoadingState.loading;
+    notifyListeners();
     _currCountry = (_countries != null &&
             _countries!.success! &&
             _countries!.countryList!.isNotEmpty)

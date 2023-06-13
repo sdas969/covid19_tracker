@@ -26,6 +26,7 @@ class _BaseScreenState extends State<BaseScreen> {
           return const SizedBox();
         }
         return MaterialApp(
+            debugShowCheckedModeBanner: false,
             title: 'COVID-19 Tracker',
             theme: appThemeProvider.appThemeData,
             home: const SplashScreen());
