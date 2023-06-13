@@ -13,6 +13,6 @@ class SearchButton extends StatelessWidget {
         tooltip: 'Search',
         icon: const Hero(
             tag: 'search', child: Icon(Icons.search, color: Colors.white)),
-        onPressed: () => AppNavigator().push(context, Text('data')));
+        onPressed: () => AppNavigator().push(context, const Text('data')));
   }
 }
