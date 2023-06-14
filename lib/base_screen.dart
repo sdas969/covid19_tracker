@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:covid19_tracker/providers/app_theme.dart';
 import 'package:covid19_tracker/views/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +28,14 @@ class _BaseScreenState extends State<BaseScreen> {
           return const SizedBox();
         }
         return MaterialApp(
+            scrollBehavior: MaterialScrollBehavior().copyWith(
+              dragDevices: {
+                PointerDeviceKind.mouse,
+                PointerDeviceKind.touch,
+                PointerDeviceKind.stylus,
+                PointerDeviceKind.unknown
+              },
+            ),
             debugShowCheckedModeBanner: false,
             title: 'COVID-19 Tracker',
             theme: appThemeProvider.appThemeData,

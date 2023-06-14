@@ -13,11 +13,14 @@ class GeoLocationDatabaseService {
       final data = await http.get(
           Uri.parse("$baseGeoLoactionEndpoint?lat=$latitude&lon=$longitude"),
           headers: baseHeader);
+      print(data.statusCode);
       if (data.statusCode == 200) {
         final computedData = await compute(jsonDecode, data.body);
         res.addAll(computedData);
         res['success'] = true;
         res['infoMsg'] = 'Success';
+      } else {
+        return await fetchGeoLocation(latitude, longitude);
       }
     } catch (error) {
       res['infoMsg'] = '$error';
