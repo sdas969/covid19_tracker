@@ -67,9 +67,13 @@ class CountriesDatabaseService {
       if (kDebugMode) {
         print(error);
       }
+      if (kDebugMode) {
+        print(res);
+      }
       return await fetchCountryData(country);
     }
-    return CountryData.fromJson(res);
+    return CountryData();
+    //return CountryData.fromJson(res);
   }
 
   Future<CountryTimeline> fetchCountryTimeline(String country) async {
