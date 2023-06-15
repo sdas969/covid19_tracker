@@ -3,6 +3,7 @@ import 'package:covid19_tracker/database_services/geo_location.dart';
 import 'package:covid19_tracker/enums/loading_state.dart';
 import 'package:covid19_tracker/models/countries.dart';
 import 'package:covid19_tracker/models/country_data.dart';
+import 'package:covid19_tracker/models/country_timeline.dart';
 import 'package:covid19_tracker/models/geo_location.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -10,27 +11,36 @@ import 'package:geolocator/geolocator.dart';
 class CountriesDataProvider extends ChangeNotifier {
   Countries? _countries;
   CountryData? _countryData;
+  CountryTimeline? _countryTimeline;
   String? _currCountry;
   String? _currState;
   String? _currGeoState;
-  LoadingState _loadingState = LoadingState.toBeLoaded;
+  LoadingState _statsLoadingState = LoadingState.toBeLoaded;
+  LoadingState _timelineLoadingState = LoadingState.toBeLoaded;
 
   Countries? get countries => _countries;
   String? get currCountry => _currCountry;
   String? get currState => _currState;
   CountryData? get countryData => _countryData;
-  LoadingState get loadingState => _loadingState;
+  CountryTimeline? get countryTimeline => _countryTimeline;
+  LoadingState get statsLoadingState => _statsLoadingState;
+  LoadingState get timelineLoadingState => _timelineLoadingState;
 
   Future initData() async {
     _countries = await CountriesDatabaseService().fetchCountriesList();
     final country = await getCurrentLocation();
     await fetchCountryData(country);
-    _loadingState = LoadingState.loaded;
+    await fetchCountryTimeline(country);
     notifyListeners();
   }
 
-  changeLoadingState(LoadingState state) {
-    _loadingState = state;
+  changeStatsLoadingState(LoadingState state) {
+    _statsLoadingState = state;
+    notifyListeners();
+  }
+
+  changeTimelineLoadingState(LoadingState state) {
+    _timelineLoadingState = state;
     notifyListeners();
   }
 
@@ -43,11 +53,19 @@ class CountriesDataProvider extends ChangeNotifier {
             -1) {
       _currState = _currGeoState;
     }
+    _statsLoadingState = LoadingState.loaded;
+    notifyListeners();
+  }
+
+  fetchCountryTimeline(String country) async {
+    _countryTimeline =
+        await CountriesDatabaseService().fetchCountryTimeline(country);
+    _timelineLoadingState = LoadingState.loaded;
     notifyListeners();
   }
 
   Future<String> getCurrentLocation() async {
-    _loadingState = LoadingState.loading;
+    _statsLoadingState = LoadingState.loading;
     notifyListeners();
     _currCountry = (_countries != null &&
             _countries!.success! &&

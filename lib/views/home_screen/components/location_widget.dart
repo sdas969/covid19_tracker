@@ -13,7 +13,7 @@ class LocationWidget extends StatelessWidget {
     return ListTile(
       title: Consumer<CountriesDataProvider>(
           builder: (context, countriesDataProvider, _) {
-        if (countriesDataProvider.loadingState != LoadingState.loaded ||
+        if (countriesDataProvider.statsLoadingState != LoadingState.loaded ||
             countriesDataProvider.countryData == null) {
           return const LoadingWidget();
         }
@@ -25,7 +25,7 @@ class LocationWidget extends StatelessWidget {
       }),
       subtitle: Consumer<CountriesDataProvider>(
           builder: (context, countriesDataProvider, _) {
-        if (countriesDataProvider.loadingState != LoadingState.loaded) {
+        if (countriesDataProvider.statsLoadingState != LoadingState.loaded) {
           return const LoadingWidget();
         }
         return (countriesDataProvider.currState != null)

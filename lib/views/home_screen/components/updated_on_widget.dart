@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 class UpdatedOnWidget extends StatelessWidget {
   const UpdatedOnWidget({super.key});
   loadLastUpdatedTime(CountriesDataProvider countryProvider) {
-    if (countryProvider.loadingState == LoadingState.loaded &&
+    if (countryProvider.statsLoadingState == LoadingState.loaded &&
         countryProvider.countryData != null &&
         countryProvider.countryData!.success! &&
         countryProvider.countryData!.updated != null) {
