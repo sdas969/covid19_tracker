@@ -24,6 +24,7 @@ class GeoLocationDatabaseService {
       }
     } catch (error) {
       res['infoMsg'] = '$error';
+      return await fetchGeoLocation(latitude, longitude);
     }
     return GeoLocation.fromJson(res);
   }

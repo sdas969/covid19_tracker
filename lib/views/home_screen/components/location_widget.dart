@@ -5,23 +5,23 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class LocationWidget extends StatelessWidget {
-  const LocationWidget({
-    super.key,
-  });
+  const LocationWidget({super.key, this.titleSize = 30});
+  final double titleSize;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       title: Consumer<CountriesDataProvider>(
           builder: (context, countriesDataProvider, _) {
-        if (countriesDataProvider.loadingState != LoadingState.loaded) {
+        if (countriesDataProvider.loadingState != LoadingState.loaded ||
+            countriesDataProvider.countryData == null) {
           return const LoadingWidget();
         }
         return Text(
             (countriesDataProvider.currState != null)
                 ? countriesDataProvider.currState!
                 : countriesDataProvider.currCountry!,
-            style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w900));
+            style: TextStyle(fontSize: titleSize, fontWeight: FontWeight.w900));
       }),
       subtitle: Consumer<CountriesDataProvider>(
           builder: (context, countriesDataProvider, _) {

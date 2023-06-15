@@ -43,6 +43,10 @@ final List<StateModel> stateLayoutList = [
       subtitle: '',
       color: Colors.blue,
       name: 'cfr',
+      numerator: 'deaths',
+      denominator: 'cases',
+      isPercentage: true,
+      showIncrement: false,
       override: true,
       displayName: 'Case Fatality Rate (CFR)'),
   StateModel(
@@ -50,6 +54,10 @@ final List<StateModel> stateLayoutList = [
       subtitle: '',
       color: Colors.blue,
       name: 'rr',
+      numerator: 'recovered',
+      denominator: 'cases',
+      isPercentage: true,
+      showIncrement: false,
       override: true,
       displayName: 'Recovery Rate')
 ];

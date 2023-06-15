@@ -1,4 +1,4 @@
-import 'package:covid19_tracker/views/home_screen/components/location_widegt.dart';
+import 'package:covid19_tracker/views/home_screen/components/location_widget.dart';
 import 'package:covid19_tracker/views/home_screen/components/overall_stats_content.dart';
 import 'package:covid19_tracker/views/home_screen/components/updated_on_widget.dart';
 import 'package:flutter/material.dart';

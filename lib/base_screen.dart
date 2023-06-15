@@ -28,7 +28,7 @@ class _BaseScreenState extends State<BaseScreen> {
           return const SizedBox();
         }
         return MaterialApp(
-            scrollBehavior: MaterialScrollBehavior().copyWith(
+            scrollBehavior: const MaterialScrollBehavior().copyWith(
               dragDevices: {
                 PointerDeviceKind.mouse,
                 PointerDeviceKind.touch,

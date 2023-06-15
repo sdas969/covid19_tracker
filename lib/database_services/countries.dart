@@ -27,6 +27,7 @@ class CountriesDatabaseService {
       }
     } catch (error) {
       res['infoMsg'] = '$error';
+      return await fetchCountriesList();
     }
     return Countries.fromJson(res);
   }
@@ -49,6 +50,7 @@ class CountriesDatabaseService {
       }
     } catch (error) {
       res['infoMsg'] = '$error';
+      return await fetchCountryData(country);
     }
     return CountryData.fromJson(res);
   }
