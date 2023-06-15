@@ -57,12 +57,16 @@ class CountriesDatabaseService {
         res['success'] = true;
         res['infoMsg'] = 'Success';
       } else {
-        print('error');
+        if (kDebugMode) {
+          print('error');
+        }
         return await fetchCountryData(country);
       }
     } catch (error) {
       res['infoMsg'] = '$error';
-      print(error);
+      if (kDebugMode) {
+        print(error);
+      }
       return await fetchCountryData(country);
     }
     return CountryData.fromJson(res);
