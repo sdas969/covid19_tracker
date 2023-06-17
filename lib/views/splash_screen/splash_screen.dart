@@ -18,31 +18,32 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    final CountriesDataProvider countriesDataProvider =
-        Provider.of<CountriesDataProvider>(context, listen: false);
-    if (countriesDataProvider.statsLoadingState == LoadingState.toBeLoaded) {
-      Future.delayed(Duration.zero, () {
-        countriesDataProvider.changeStatsLoadingState(LoadingState.loading);
-        countriesDataProvider.initData().then((value) {
-          return AppNavigator().pushReplacement(context, const AppLayout());
-        });
-      });
-    }
     super.initState();
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-      body: Center(
-          child: LayoutBuilder(
-              builder: (context, constraints) => Padding(
-                  padding: EdgeInsets.all(constraints.maxHeight / 18),
-                  child: const Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        LogoWidget(),
-                        TitleWidget(),
-                        CircularProgressIndicatorWidget()
-                      ])))));
+  Widget build(BuildContext context) => Consumer<CountriesDataProvider>(
+          builder: (context, countriesDataProvider, _) {
+        if (countriesDataProvider.statsLoadingState == LoadingState.loaded &&
+            countriesDataProvider.countryData != null &&
+            countriesDataProvider.countryData!.success != null &&
+            countriesDataProvider.countryData!.success!) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            AppNavigator().pushReplacement(context, const AppLayout());
+          });
+        }
+        return Scaffold(
+            body: Center(
+                child: LayoutBuilder(
+                    builder: (context, constraints) => Padding(
+                        padding: EdgeInsets.all(constraints.maxHeight / 18),
+                        child: const Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              LogoWidget(),
+                              TitleWidget(),
+                              CircularProgressIndicatorWidget()
+                            ])))));
+      });
 }

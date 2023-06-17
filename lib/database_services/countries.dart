@@ -72,8 +72,7 @@ class CountriesDatabaseService {
       }
       return await fetchCountryData(country);
     }
-    return CountryData();
-    //return CountryData.fromJson(res);
+    return CountryData.fromJson(res);
   }
 
   Future<CountryTimeline> fetchCountryTimeline(String country) async {
