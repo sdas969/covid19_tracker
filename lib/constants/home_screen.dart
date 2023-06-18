@@ -10,6 +10,7 @@ const List<StretchMode> stretchModes = [
 ];
 
 final DateFormat dateFormat = DateFormat('dd MMMM yyyy');
+final DateFormat timelineDateFormat = DateFormat('M/d/yy');
 
 final LayoutConfig layoutConfig =
     LayoutConfig(lg: 4, md: 4, sm: 6, xl: 2, xs: 6);

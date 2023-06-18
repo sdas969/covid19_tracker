@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:covid19_tracker/constants/home_screen.dart';
 import 'package:covid19_tracker/models/pair.dart';
 
 class CountryTimeline {
@@ -62,21 +65,74 @@ class Timeline {
 }
 
 class Cases {
-  List<Pair<String, int>>? dataList;
+  List<Pair<DateTime, int>>? dataList;
+  List<Pair<DateTime, int>>? diffDataList;
 
   Cases({this.dataList});
 
   Cases.fromJson(Map<String, dynamic> json) {
-    final data = <Pair<String, int>>[];
-    json.forEach((key, value) => data.add(Pair(key, value)));
-    dataList = data;
+    List<Pair<DateTime, int>> data = <Pair<DateTime, int>>[];
+    json.forEach((key, value) {
+      if (data.isEmpty) {
+        data.add(Pair(timelineDateFormat.parse(key), value));
+      } else {
+        data.add(
+            Pair(timelineDateFormat.parse(key), max(value, data.last.value)));
+      }
+    });
+    dataList = piecewiseAggregation(data, 20);
+    diffDataList = <Pair<DateTime, int>>[];
+    for (int index = 1; index < data.length; index++) {
+      final diffData =
+          Pair(data[index].date, data[index].value - data[index - 1].value);
+
+      diffDataList!.add(diffData);
+    }
+    diffDataList = piecewiseAggregation(diffDataList!, 20);
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    for (Pair<String, int> element in dataList!) {
-      data[element.date] = element.value;
+    for (Pair<DateTime, int> element in dataList!) {
+      data[timelineDateFormat.format(element.date)] = element.value;
     }
     return data;
+  }
+
+  List<Pair<DateTime, int>> piecewiseAggregation(
+      List<Pair<DateTime, int>> data, int segments) {
+    if (data.length <= segments) {
+      return data;
+    }
+
+    final int segmentSize = (data.length / segments).ceil();
+
+    List<Pair<DateTime, int>> reducedData = [];
+
+    for (int i = 0; i < data.length; i += segmentSize) {
+      int endIndex = i + segmentSize;
+      if (endIndex >= data.length) {
+        endIndex = data.length - 1;
+      }
+
+      List<Pair<DateTime, int>> segment = data.sublist(i, endIndex);
+      Pair<DateTime, int> aggregateValue = computeAggregateValue(segment);
+
+      reducedData.add(aggregateValue);
+    }
+
+    return reducedData;
+  }
+
+  Pair<DateTime, int> computeAggregateValue(List<Pair<DateTime, int>> segment) {
+    DateTime segmentStart = segment.first.date;
+
+    Pair<DateTime, int> maxPair =
+        segment.reduce((a, b) => a.value > b.value ? a : b);
+
+    Pair<DateTime, int> aggregateValue =
+        Pair<DateTime, int>(segmentStart, maxPair.value);
+
+    return aggregateValue;
   }
 }
