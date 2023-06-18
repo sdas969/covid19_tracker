@@ -14,14 +14,8 @@ class CountriesDatabaseService {
       'countryList': []
     };
     try {
-      if (kDebugMode) {
-        print('hello');
-      }
       final data = await http.get(Uri.parse(baseCountryDataEndpoint),
           headers: baseHeader);
-      if (kDebugMode) {
-        print('sdas test  ${data.statusCode}');
-      }
       if (data.statusCode == 200) {
         final computedData = await compute(jsonDecode, data.body);
         res['countryList'] = computedData;
@@ -39,37 +33,22 @@ class CountriesDatabaseService {
 
   Future<CountryData> fetchCountryData(String country) async {
     Map<String, dynamic> res = {'infoMsg': '', 'success': false};
-    if (kDebugMode) {
-      print('sdas $country');
-    }
-    if (kDebugMode) {
-      print('hello1');
-    }
+
     try {
       final data = await http.get(Uri.parse("$baseCountryDataEndpoint$country"),
           headers: baseHeader);
-      if (kDebugMode) {
-        print(data.statusCode);
-      }
+
       if (data.statusCode == 200) {
         final computedData = await compute(jsonDecode, data.body);
         res.addAll(computedData);
         res['success'] = true;
         res['infoMsg'] = 'Success';
       } else {
-        if (kDebugMode) {
-          print('error');
-        }
         return await fetchCountryData(country);
       }
     } catch (error) {
       res['infoMsg'] = '$error';
-      if (kDebugMode) {
-        print(error);
-      }
-      if (kDebugMode) {
-        print(res);
-      }
+
       return await fetchCountryData(country);
     }
     return CountryData.fromJson(res);
@@ -77,19 +56,12 @@ class CountriesDatabaseService {
 
   Future<CountryTimeline> fetchCountryTimeline(String country) async {
     Map<String, dynamic> res = {'infoMsg': '', 'success': false};
-    if (kDebugMode) {
-      print('sdas $country');
-    }
-    if (kDebugMode) {
-      print('hello2');
-    }
+
     try {
       final data = await http.get(
           Uri.parse("$baseCountryTimelineEndpoint$country$timelineParams"),
           headers: baseHeader);
-      if (kDebugMode) {
-        print(data.statusCode);
-      }
+
       if (data.statusCode == 200) {
         final computedData = await compute(jsonDecode, data.body);
         res.addAll(computedData);

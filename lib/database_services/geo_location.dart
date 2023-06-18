@@ -13,9 +13,7 @@ class GeoLocationDatabaseService {
       final data = await http.get(
           Uri.parse("$baseGeoLoactionEndpoint?lat=$latitude&lon=$longitude"),
           headers: baseHeader);
-      if (kDebugMode) {
-        print(data.statusCode);
-      }
+
       if (data.statusCode == 200) {
         final computedData = await compute(jsonDecode, data.body);
         res.addAll(computedData);

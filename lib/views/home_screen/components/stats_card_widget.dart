@@ -1,3 +1,4 @@
+import 'package:covid19_tracker/constants/universal.dart';
 import 'package:covid19_tracker/models/state_model.dart';
 import 'package:covid19_tracker/views/home_screen/components/card_content_widget.dart';
 import 'package:covid19_tracker/views/home_screen/components/card_title_widget.dart';
@@ -8,6 +9,7 @@ class StatsCardWidget extends StatelessWidget {
       {super.key,
       required this.data,
       required this.isDataLoaded,
+      this.shape,
       this.margin = const EdgeInsets.all(8),
       this.padding = const EdgeInsets.symmetric(vertical: 15, horizontal: 16),
       this.elevation = 5,
@@ -19,11 +21,13 @@ class StatsCardWidget extends StatelessWidget {
   final EdgeInsets margin;
   final double elevation;
   final EdgeInsets padding;
+  final ShapeBorder? shape;
 
   @override
   Widget build(BuildContext context) => Card(
       margin: margin,
       elevation: elevation,
+      shape: shape ?? cardShape,
       child: Padding(
           padding: padding,
           child: Column(

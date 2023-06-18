@@ -15,6 +15,9 @@ class CountriesDataProvider extends ChangeNotifier {
   String? _currCountry;
   String? _currState;
   String? _currGeoState;
+  bool _isDifferential = true;
+  bool _isCombined = true;
+  List<bool> _activeCategories = List.generate(3, (index) => true);
   LoadingState _statsLoadingState = LoadingState.toBeLoaded;
   LoadingState _timelineLoadingState = LoadingState.toBeLoaded;
 
@@ -25,6 +28,9 @@ class CountriesDataProvider extends ChangeNotifier {
   CountryTimeline? get countryTimeline => _countryTimeline;
   LoadingState get statsLoadingState => _statsLoadingState;
   LoadingState get timelineLoadingState => _timelineLoadingState;
+  bool get isDifferential => _isDifferential;
+  bool get isCombined => _isCombined;
+  List<bool> get activeCategories => _activeCategories;
 
   Future initData() async {
     _countries = await CountriesDatabaseService().fetchCountriesList();
@@ -61,6 +67,25 @@ class CountriesDataProvider extends ChangeNotifier {
     _countryTimeline =
         await CountriesDatabaseService().fetchCountryTimeline(country);
     _timelineLoadingState = LoadingState.loaded;
+    notifyListeners();
+  }
+
+  toggleGraphType({bool? value}) {
+    if (value == null) {
+      _isDifferential = !_isDifferential;
+    } else {
+      _isDifferential = value;
+    }
+
+    notifyListeners();
+  }
+
+  toggleViewType({bool? value}) {
+    if (value == null) {
+      _isCombined = !_isCombined;
+    } else {
+      _isCombined = value;
+    }
     notifyListeners();
   }
 
