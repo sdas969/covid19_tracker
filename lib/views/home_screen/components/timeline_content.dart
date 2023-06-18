@@ -1,5 +1,4 @@
 import 'package:covid19_tracker/constants/universal.dart';
-import 'package:covid19_tracker/enums/loading_state.dart';
 import 'package:covid19_tracker/providers/countries_data.dart';
 import 'package:covid19_tracker/views/home_screen/components/combined_graph.dart';
 import 'package:covid19_tracker/views/home_screen/components/graph_card_header_widget.dart';
@@ -14,28 +13,37 @@ class TimelineContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Consumer<CountriesDataProvider>(
           builder: (context, countriesDataProvider, _) {
-        if (countriesDataProvider.timelineLoadingState != LoadingState.loaded ||
-            countriesDataProvider.countryTimeline == null ||
-            countriesDataProvider.countryTimeline!.success == null ||
-            !countriesDataProvider.countryTimeline!.success!) {
-          return const Center(child: CircularProgressIndicator());
-        }
         return Card(
             elevation: 10,
             shape: shape ?? cardShape,
             margin: const EdgeInsets.all(8),
-            child: Padding(
-                padding: const EdgeInsets.all(16.0),
+            child: const Padding(
+                padding: EdgeInsets.all(16.0),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const GraphCardHeaderWidget(),
-                      const SizedBox(height: 20),
-                      if (countriesDataProvider.isCombined)
-                        const CombinedGraph()
-                      else
-                        const SegregatedGraph()
+                      GraphCardHeaderWidget(),
+                      SizedBox(height: 20),
+                      GraphWidget()
                     ])));
       });
+}
+
+class GraphWidget extends StatelessWidget {
+  const GraphWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<CountriesDataProvider>(
+        builder: (context, countriesDataProvider, _) {
+      return Padding(
+          padding: const EdgeInsets.all(10),
+          child: countriesDataProvider.isCombined
+              ? const CombinedGraph()
+              : const SegregatedGraph());
+    });
+  }
 }
