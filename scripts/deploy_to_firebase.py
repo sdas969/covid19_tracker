@@ -4,7 +4,7 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 
 # Fetch data from API
-response = requests.get('https://api.example.com/data')
+response = requests.get('https://corona.lmao.ninja/v3/covid-19/historical/india?lastdays=all')
 data = response.json()
 
 # Initialize Firebase
