@@ -3,13 +3,15 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 headers = {"accept": "application/json"}
-
+countryListBaseURL = 'https://disease.sh/v3/covid-19/gov/'
+historicalDataBaseURL = 'https://corona.lmao.ninja/v3/covid-19/historical/'
+historicalDataQueryParams = '?lastdays=all'
 cred = credentials.Certificate('scripts/covid19_tracker_private_key.json')
 firebase_admin.initialize_app(cred)
 db = firestore.client()
 
 def getCountriesList():
-    countriesListResponse = requests.get('https://disease.sh/v3/covid-19/gov/', headers=headers)
+    countriesListResponse = requests.get(countryListBaseURL, headers=headers)
     if (countriesListResponse.status_code != 200):
         return getCountriesList()
     return countriesListResponse.json()
@@ -17,13 +19,13 @@ def getCountriesList():
 countriesList = getCountriesList()
 
 def getHistoricalDataForCountry(country):
-    countryResponse = requests.get('https://corona.lmao.ninja/v3/covid-19/historical/'+ country + '?lastdays=all', headers=headers)
+    countryResponse = requests.get(historicalDataBaseURL+ country + historicalDataQueryParams, headers=headers)
     if (countryResponse.status_code != 200):
         return getHistoricalDataForCountry(country)
     return countryResponse.json()
 
 def getHistoricalDataForAll():
-    allCountriesResponse = requests.get('https://disease.sh/v3/covid-19/historical/' + ''.join(countriesList) + '?lastdays=all', headers=headers)
+    allCountriesResponse = requests.get(historicalDataBaseURL + ''.join(countriesList) + historicalDataQueryParams, headers=headers)
     if (allCountriesResponse.status_code != 200):
         return getHistoricalDataForAll()
     return allCountriesResponse.json()
