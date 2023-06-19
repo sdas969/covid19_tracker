@@ -1,9 +1,12 @@
 import requests
 import json
+from datetime import datetime
 import firebase_admin
 from collections import OrderedDict
 from firebase_admin import credentials
 from firebase_admin import firestore
+
+date_format = "%m/%d/%y"
 headers = {"accept": "application/json"}
 countryListBaseURL = 'https://disease.sh/v3/covid-19/gov/'
 historicalDataBaseURL = 'https://corona.lmao.ninja/v3/covid-19/historical/'
@@ -26,8 +29,24 @@ def getHistoricalDataForCountry(country):
     countryResponse = requests.get(historicalDataBaseURL + country + historicalDataQueryParams, headers=headers)
     if countryResponse.status_code != 200:
         return getHistoricalDataForCountry(country)
-    return json.loads(countryResponse.content, object_pairs_hook=OrderedDict)
+    data = json.loads(countryResponse.content, object_pairs_hook=OrderedDict)
+    jsonData = {
+        'country' : country,
+        'cases': convertMapToSortedList(data['timeline']['cases']),
+        'recovered':convertMapToSortedList(data['timeline']['recovered']),
+        'deaths':convertMapToSortedList(data['timeline']['deaths']) 
+    }
 
+def convertMapToSortedList(map):
+    arr = []
+    for date, value in map:
+        arr.append({
+            'date':datetime.strptime(date, date_format),
+            'value': value
+        })
+    arr.sort(key= lambda x: x['date'])
+    return arr
+    
 
 def getHistoricalDataForAll():
     allCountriesResponse = requests.get(historicalDataBaseURL + ', '.join(countriesList) + historicalDataQueryParams, headers=headers)

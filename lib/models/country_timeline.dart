@@ -73,13 +73,12 @@ class Cases {
   Cases.fromJson(Map<String, dynamic> json) {
     List<Pair<DateTime, int>> data = <Pair<DateTime, int>>[];
     json.forEach((key, value) {
-      if (data.isEmpty) {
-        data.add(Pair(timelineDateFormat.parse(key), value));
-      } else {
-        data.add(
-            Pair(timelineDateFormat.parse(key), max(value, data.last.value)));
-      }
+      data.add(Pair(timelineDateFormat.parse(key), value));
     });
+    data.sort((a, b) => a.date.compareTo(b.date));
+    for (int index = 1; index < data.length; index++) {
+      data[index].value = max(data[index].value, data[index - 1].value);
+    }
     dataList = piecewiseAggregation(data, 20);
     diffDataList = <Pair<DateTime, int>>[];
     for (int index = 1; index < data.length; index++) {
