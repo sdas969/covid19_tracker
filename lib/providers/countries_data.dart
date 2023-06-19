@@ -58,6 +58,8 @@ class CountriesDataProvider extends ChangeNotifier {
                 .indexWhere((element) => element.state == _currGeoState) !=
             -1) {
       _currState = _currGeoState;
+    } else {
+      _currState = '';
     }
     _statsLoadingState = LoadingState.loaded;
     notifyListeners();
@@ -98,9 +100,15 @@ class CountriesDataProvider extends ChangeNotifier {
         ? _countries?.countryList!.first
         : '';
     try {
-      await Geolocator.requestPermission();
+      final permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied ||
+          permission == LocationPermission.deniedForever ||
+          permission == LocationPermission.unableToDetermine) {
+        return currCountry ?? '';
+      }
 
       Position position = await Geolocator.getCurrentPosition(
+          forceAndroidLocationManager: true,
           desiredAccuracy: LocationAccuracy.high);
       final geoData = await GeoLocationDatabaseService()
           .fetchGeoLocation(position.latitude, position.longitude);
