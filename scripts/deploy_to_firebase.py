@@ -14,7 +14,7 @@ db = firestore.client()
 
 def getCountriesList():
     countriesListResponse = requests.get(countryListBaseURL, headers=headers)
-    if (countriesListResponse.status_code != 200):
+    if countriesListResponse.status_code != 200:
         return getCountriesList()
     return countriesListResponse.json()
 
@@ -22,18 +22,19 @@ def getCountriesList():
 countriesList = getCountriesList()
 
 
-
 def getHistoricalDataForCountry(country):
-    countryResponse = requests.get(historicalDataBaseURL+ country + historicalDataQueryParams, headers=headers)
-    if (countryResponse.status_code != 200):
+    countryResponse = requests.get(historicalDataBaseURL + country + historicalDataQueryParams, headers=headers)
+    if countryResponse.status_code != 200:
         return getHistoricalDataForCountry(country)
-    return OrderedDict(countryResponse.json())
+    return json.loads(countryResponse.content, object_pairs_hook=OrderedDict)
+
 
 def getHistoricalDataForAll():
     allCountriesResponse = requests.get(historicalDataBaseURL + ', '.join(countriesList) + historicalDataQueryParams, headers=headers)
-    if (allCountriesResponse.status_code != 200):
+    if allCountriesResponse.status_code != 200:
         return getHistoricalDataForAll()
-    return {'data': OrderedDict(allCountriesResponse.json())}
+    return json.loads(allCountriesResponse.content, object_pairs_hook=OrderedDict)
+
 
 allCountriesData = getHistoricalDataForAll()
 allCollectionRef = db.collection('historicalData')
@@ -42,9 +43,9 @@ allDocRef.set(allCountriesData)
 
 def getCurrDataForCountry(country):
     countryResponse = requests.get(countryListBaseURL + country, headers=headers)
-    if(countryResponse.status_code == 200):
+    if countryResponse.status_code == 200:
         return getCurrDataForCountry(country)
-    return OrderedDict(countryResponse.json())
+    return json.loads(countryResponse.content, object_pairs_hook=OrderedDict)
 
 for country in countriesList:
     historicalData = getHistoricalDataForCountry(country)
