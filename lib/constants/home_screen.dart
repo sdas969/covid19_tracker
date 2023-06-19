@@ -2,7 +2,6 @@ import 'package:covid19_tracker/models/layout_config.dart';
 import 'package:covid19_tracker/models/state_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 
 const List<StretchMode> stretchModes = [
   StretchMode.zoomBackground,
@@ -63,14 +62,3 @@ final List<StateModel> stateLayoutList = [
       override: true,
       displayName: 'Recovery Rate')
 ];
-
-final zoomPanBehavior = ZoomPanBehavior(
-    enablePanning: true, enableDoubleTapZooming: true, enablePinching: true);
-
-final singleGraphLegend = Legend(isVisible: false);
-final combinedGraphLegend = Legend(
-    isVisible: true,
-    orientation: LegendItemOrientation.horizontal,
-    isResponsive: true,
-    position: LegendPosition.bottom,
-    alignment: ChartAlignment.center);

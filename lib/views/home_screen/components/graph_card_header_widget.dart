@@ -8,13 +8,11 @@ class GraphCardHeaderWidget extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return const Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Expanded(child: GraphCardTitleWidget()),
-          CustomiseGraphWidget()
-        ]);
-  }
+  Widget build(BuildContext context) => const Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(child: GraphCardTitleWidget()),
+            CustomiseGraphWidget()
+          ]);
 }
