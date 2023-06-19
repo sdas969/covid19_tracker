@@ -1,10 +1,41 @@
 import requests
 import json
 from datetime import datetime
+from math import ceil
 import firebase_admin
 from collections import OrderedDict
 from firebase_admin import credentials
 from firebase_admin import firestore
+
+def piecewiseAggregation(data, segments):
+    if len(data) <= segments:
+        return data
+    
+    segmentSize = ceil(len(data) / segments)
+    reducedData = []
+
+    for i in range(0, len(data), segmentSize):
+        endIndex = i + segmentSize
+        if endIndex >= len(data):
+            endIndex = len(data) - 1
+
+        segment = data[i:endIndex]
+        aggregateValue = computeAggregateValue(segment)
+        reducedData.append(aggregateValue)
+
+    return reducedData
+
+def computeAggregateValue(segment):
+    segmentStart = segment[0]['date']
+
+    maxPair = max(segment, key=lambda pair: pair['value'])
+
+    aggregateValue = {
+        'date': segmentStart,
+        'value': maxPair['value']
+    }
+
+    return aggregateValue
 
 date_format = "%m/%d/%y"
 headers = {"accept": "application/json"}
@@ -41,9 +72,9 @@ def getHistoricalDataForCountry(country):
         'country' : country,
         'lat': lat,
         'long': long,
-        'cases': convertMapToSortedList(data['timeline']['cases']),
-        'recovered':convertMapToSortedList(data['timeline']['recovered']),
-        'deaths':convertMapToSortedList(data['timeline']['deaths']) 
+        'cases': piecewiseAggregation(convertMapToSortedList(data['timeline']['cases']), 20),
+        'recovered':piecewiseAggregation(convertMapToSortedList(data['timeline']['recovered']), 20),
+        'deaths':piecewiseAggregation(convertMapToSortedList(data['timeline']['deaths']), 20) 
     }
     return jsonData
 
