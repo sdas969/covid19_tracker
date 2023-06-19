@@ -11,6 +11,7 @@ headers = {"accept": "application/json"}
 countryListBaseURL = 'https://disease.sh/v3/covid-19/gov/'
 historicalDataBaseURL = 'https://corona.lmao.ninja/v3/covid-19/historical/'
 historicalDataQueryParams = '?lastdays=all'
+geoLocationBaseURL = "https://geocode.maps.co/search?q="
 cred = credentials.Certificate('scripts/covid19_tracker_private_key.json')
 firebase_admin.initialize_app(cred)
 db = firestore.client()
@@ -24,14 +25,24 @@ def getCountriesList():
 
 countriesList = getCountriesList()
 
+def getLatLongFromAddress(address):
+    geoLocationResponse = requests.get(geoLocationBaseURL + address, headers=headers)
+    if geoLocationResponse.status_code != 200:
+        return getLatLongFromAddress(address)
+    jsonData = geoLocationResponse.json()
+    return (jsonData[0]["lat"], jsonData[0]["long"])
+
 
 def getHistoricalDataForCountry(country):
     countryResponse = requests.get(historicalDataBaseURL + country + historicalDataQueryParams, headers=headers)
     if countryResponse.status_code != 200:
         return getHistoricalDataForCountry(country)
     data = json.loads(countryResponse.content, object_pairs_hook=OrderedDict)
+    lat, long = getLatLongFromAddress(country)
     jsonData = {
         'country' : country,
+        'lat': lat,
+        'long': long,
         'cases': convertMapToSortedList(data['timeline']['cases']),
         'recovered':convertMapToSortedList(data['timeline']['recovered']),
         'deaths':convertMapToSortedList(data['timeline']['deaths']) 
