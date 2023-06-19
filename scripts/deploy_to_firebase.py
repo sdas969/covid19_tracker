@@ -22,7 +22,6 @@ def getCountriesList():
         return getCountriesList()
     return countriesListResponse.json()
 
-
 countriesList = getCountriesList()
 
 def getLatLongFromAddress(address):
@@ -31,7 +30,6 @@ def getLatLongFromAddress(address):
         return getLatLongFromAddress(address)
     jsonData = geoLocationResponse.json()
     return (float(jsonData[0]["lat"]), float(jsonData[0]["lon"]))
-
 
 def getHistoricalDataForCountry(country):
     countryResponse = requests.get(historicalDataBaseURL + country + historicalDataQueryParams, headers=headers)
@@ -60,20 +58,6 @@ def convertMapToSortedList(map):
     for i in range(1, len(arr)):
         arr[i]["value"] = max(arr[i]["value"], arr[i - 1]["value"])
     return arr
-    
-
-def getHistoricalDataForAll():
-    allCountriesResponse = requests.get(historicalDataBaseURL + ', '.join(countriesList) + historicalDataQueryParams, headers=headers)
-    if allCountriesResponse.status_code != 200:
-        return getHistoricalDataForAll()
-    data = allCountriesResponse.json(object_pairs_hook=OrderedDict)
-    return {'data': data}
-
-
-allCountriesData = getHistoricalDataForAll()
-allCollectionRef = db.collection('historicalData')
-allDocRef = allCollectionRef.document('All')
-allDocRef.set(allCountriesData)
 
 def getCurrDataForCountry(country):
     countryResponse = requests.get(countryListBaseURL + country, headers=headers)
@@ -81,11 +65,18 @@ def getCurrDataForCountry(country):
         return getCurrDataForCountry(country)
     return json.loads(countryResponse.content, object_pairs_hook=OrderedDict)
 
+allCountriesData = {}
+
 for country in countriesList:
     historicalData = getHistoricalDataForCountry(country)
+    allCountriesData[country] = historicalData
     collection_ref = db.collection('historicalData')
     doc_ref = collection_ref.document(country)
     doc_ref.set(historicalData)
+
+allCollectionRef = db.collection('historicalData')
+allDocRef = allCollectionRef.document('All')
+allDocRef.set(allCountriesData)
 
 
 print('Data uploaded to Firebase successfully!')
