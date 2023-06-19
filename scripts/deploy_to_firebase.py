@@ -33,7 +33,8 @@ def getHistoricalDataForAll():
     allCountriesResponse = requests.get(historicalDataBaseURL + ', '.join(countriesList) + historicalDataQueryParams, headers=headers)
     if allCountriesResponse.status_code != 200:
         return getHistoricalDataForAll()
-    return json.loads(allCountriesResponse.content, object_pairs_hook=OrderedDict)
+    data = allCountriesResponse.json(object_pairs_hook=OrderedDict)
+    return {'data': data}
 
 
 allCountriesData = getHistoricalDataForAll()
