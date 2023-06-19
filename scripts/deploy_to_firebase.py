@@ -22,6 +22,17 @@ def getHistoricalDataForCountry(country):
         return getHistoricalDataForCountry(country)
     return countryResponse.json()
 
+def getHistoricalDataForAll():
+    allCountriesResponse = requests.get('https://disease.sh/v3/covid-19/historical/' + ''.join(countriesList) + '?lastdays=all', headers=headers)
+    if (allCountriesResponse.status_code != 200):
+        return getHistoricalDataForAll()
+    return allCountriesResponse.json()
+
+allCountriesData = getHistoricalDataForAll()
+allCollectionRef = db.collection('historicalData')
+allDocRef = allCollectionRef.document('All')
+allDocRef.set(allCountriesData)
+
 for country in countriesList:
     historicalData = getHistoricalDataForCountry(country)
     collection_ref = db.collection('historicalData')
