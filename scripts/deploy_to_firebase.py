@@ -25,7 +25,7 @@ def getHistoricalDataForCountry(country):
     return countryResponse.json()
 
 def getHistoricalDataForAll():
-    allCountriesResponse = requests.get(historicalDataBaseURL + ''.join(countriesList) + historicalDataQueryParams, headers=headers)
+    allCountriesResponse = requests.get(historicalDataBaseURL + ', '.join(countriesList) + historicalDataQueryParams, headers=headers)
     if (allCountriesResponse.status_code != 200):
         return getHistoricalDataForAll()
     return allCountriesResponse.json()
