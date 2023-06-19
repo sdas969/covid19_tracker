@@ -38,7 +38,7 @@ def getHistoricalDataForAll():
 allCountriesData = getHistoricalDataForAll()
 allCollectionRef = db.collection('historicalData')
 allDocRef = allCollectionRef.document('All')
-allDocRef.set(allCountriesData)
+allDocRef.set(json.dumps(allCountriesData, sort_keys=False))
 
 def getCurrDataForCountry(country):
     countryResponse = requests.get(countryListBaseURL + country, headers=headers)
@@ -50,7 +50,7 @@ for country in countriesList:
     historicalData = getHistoricalDataForCountry(country)
     collection_ref = db.collection('historicalData')
     doc_ref = collection_ref.document(country)
-    doc_ref.set(historicalData)
+    doc_ref.set(json.dumps(historicalData, sort_keys=False))
 
 
 print('Data uploaded to Firebase successfully!')
