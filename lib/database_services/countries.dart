@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:covid19_tracker/constants/database_services.dart';
 import 'package:covid19_tracker/models/countries.dart';
 import 'package:covid19_tracker/models/country_data.dart';
@@ -58,13 +59,13 @@ class CountriesDatabaseService {
     Map<String, dynamic> res = {'infoMsg': '', 'success': false};
 
     try {
-      final data = await http.get(
-          Uri.parse("$baseCountryTimelineEndpoint$country$timelineParams"),
-          headers: baseHeader);
+      final data = await FirebaseFirestore.instance
+          .collection('historicalData')
+          .doc(country)
+          .get();
 
-      if (data.statusCode == 200) {
-        final computedData = await compute(jsonDecode, data.body);
-        res.addAll(computedData);
+      if (data.exists && data.data() != null && data.data()!.isNotEmpty) {
+        res.addAll(data.data()!);
         res['success'] = true;
         res['infoMsg'] = 'Success';
       } else {

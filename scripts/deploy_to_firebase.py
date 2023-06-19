@@ -1,5 +1,7 @@
 import requests
+import json
 import firebase_admin
+from collections import OrderedDict
 from firebase_admin import credentials
 from firebase_admin import firestore
 headers = {"accept": "application/json"}
@@ -14,26 +16,35 @@ def getCountriesList():
     countriesListResponse = requests.get(countryListBaseURL, headers=headers)
     if (countriesListResponse.status_code != 200):
         return getCountriesList()
-    return countriesListResponse.json()
+    return json.loads(countriesListResponse.json(), object_pairs_hook=OrderedDict)
+
 
 countriesList = getCountriesList()
+
+
 
 def getHistoricalDataForCountry(country):
     countryResponse = requests.get(historicalDataBaseURL+ country + historicalDataQueryParams, headers=headers)
     if (countryResponse.status_code != 200):
         return getHistoricalDataForCountry(country)
-    return countryResponse.json()
+    return json.loads(countryResponse.json(), object_pairs_hook=OrderedDict)
 
 def getHistoricalDataForAll():
     allCountriesResponse = requests.get(historicalDataBaseURL + ', '.join(countriesList) + historicalDataQueryParams, headers=headers)
     if (allCountriesResponse.status_code != 200):
         return getHistoricalDataForAll()
-    return {'data': allCountriesResponse.json()}
+    return {'data': json.loads(allCountriesResponse.json(), object_pairs_hook=OrderedDict)}
 
 allCountriesData = getHistoricalDataForAll()
 allCollectionRef = db.collection('historicalData')
 allDocRef = allCollectionRef.document('All')
 allDocRef.set(allCountriesData)
+
+def getCurrDataForCountry(country):
+    countryResponse = requests.get(countryListBaseURL + country, headers=headers)
+    if(countryResponse.status_code == 200):
+        return getCurrDataForCountry(country)
+    return json.loads(countryResponse.json(), object_pairs_hook=OrderedDict)
 
 for country in countriesList:
     historicalData = getHistoricalDataForCountry(country)
