@@ -4,7 +4,7 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 headers = {"accept": "application/json"}
 
-cred = credentials.Certificate('../scripts/covid19_tracker_private_key.json')
+cred = credentials.Certificate('scripts/covid19_tracker_private_key.json')
 firebase_admin.initialize_app(cred)
 db = firestore.client()
 
