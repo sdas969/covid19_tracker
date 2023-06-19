@@ -30,7 +30,7 @@ def getLatLongFromAddress(address):
     if geoLocationResponse.status_code != 200:
         return getLatLongFromAddress(address)
     jsonData = geoLocationResponse.json()
-    return (jsonData[0]["lat"], jsonData[0]["lon"])
+    return (float(jsonData[0]["lat"]), float(jsonData[0]["lon"]))
 
 
 def getHistoricalDataForCountry(country):
