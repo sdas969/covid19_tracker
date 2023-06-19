@@ -6,6 +6,7 @@ from firebase_admin import firestore
 # Fetch data from API
 response = requests.get('https://corona.lmao.ninja/v3/covid-19/historical/india?lastdays=all')
 data = response.json()
+print(data);
 
 # Initialize Firebase
 cred = credentials.Certificate('covid19_tracker_private_key.json')
