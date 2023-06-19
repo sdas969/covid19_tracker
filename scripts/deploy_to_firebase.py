@@ -36,6 +36,7 @@ def getHistoricalDataForCountry(country):
         'recovered':convertMapToSortedList(data['timeline']['recovered']),
         'deaths':convertMapToSortedList(data['timeline']['deaths']) 
     }
+    return jsonData
 
 def convertMapToSortedList(map):
     arr = []
