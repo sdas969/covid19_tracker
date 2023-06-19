@@ -16,7 +16,7 @@ def getCountriesList():
     countriesListResponse = requests.get(countryListBaseURL, headers=headers)
     if (countriesListResponse.status_code != 200):
         return getCountriesList()
-    return json.loads(countriesListResponse.json(), object_pairs_hook=OrderedDict)
+    return countriesListResponse.json()
 
 
 countriesList = getCountriesList()
@@ -27,30 +27,30 @@ def getHistoricalDataForCountry(country):
     countryResponse = requests.get(historicalDataBaseURL+ country + historicalDataQueryParams, headers=headers)
     if (countryResponse.status_code != 200):
         return getHistoricalDataForCountry(country)
-    return json.loads(countryResponse.json(), object_pairs_hook=OrderedDict)
+    return OrderedDict(countryResponse.json())
 
 def getHistoricalDataForAll():
     allCountriesResponse = requests.get(historicalDataBaseURL + ', '.join(countriesList) + historicalDataQueryParams, headers=headers)
     if (allCountriesResponse.status_code != 200):
         return getHistoricalDataForAll()
-    return {'data': json.loads(allCountriesResponse.json(), object_pairs_hook=OrderedDict)}
+    return {'data': OrderedDict(allCountriesResponse.json())}
 
 allCountriesData = getHistoricalDataForAll()
 allCollectionRef = db.collection('historicalData')
 allDocRef = allCollectionRef.document('All')
-allDocRef.set(json.dumps(allCountriesData, sort_keys=False))
+allDocRef.set(allCountriesData)
 
 def getCurrDataForCountry(country):
     countryResponse = requests.get(countryListBaseURL + country, headers=headers)
     if(countryResponse.status_code == 200):
         return getCurrDataForCountry(country)
-    return json.loads(countryResponse.json(), object_pairs_hook=OrderedDict)
+    return OrderedDict(countryResponse.json())
 
 for country in countriesList:
     historicalData = getHistoricalDataForCountry(country)
     collection_ref = db.collection('historicalData')
     doc_ref = collection_ref.document(country)
-    doc_ref.set(json.dumps(historicalData, sort_keys=False))
+    doc_ref.set(historicalData)
 
 
 print('Data uploaded to Firebase successfully!')
