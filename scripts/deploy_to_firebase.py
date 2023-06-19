@@ -39,7 +39,7 @@ def getHistoricalDataForCountry(country):
 
 def convertMapToSortedList(map):
     arr = []
-    for date, value in map:
+    for date, value in map.items():
         arr.append({
             'date':datetime.strptime(date, date_format),
             'value': value
