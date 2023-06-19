@@ -46,6 +46,8 @@ def convertMapToSortedList(map):
             'value': value
         })
     arr.sort(key= lambda x: x['date'])
+    for i in range(1, len(arr)):
+        arr[i]["value"] = max(arr[i]["value"], arr[i - 1]["value"])
     return arr
     
 
