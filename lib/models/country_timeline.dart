@@ -56,6 +56,7 @@ class Timeline {
     }
     if (deaths != null) {
       data['deaths'] = deaths!.toJson();
+      //
     }
     if (recovered != null) {
       data['recovered'] = recovered!.toJson();
