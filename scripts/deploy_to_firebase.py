@@ -193,7 +193,6 @@ print('Fetched & Uploaded Historical Data for each country.')
 
 allDocRef = collection_ref.document('All')
 allDocRef.set(allCountriesData)
-
 diffAllDocRef = diff_collection_ref.document('All')
 diffAllDocRef.set(allCountriesDiffData)
 print('Uploaded Historical Data for all countries.')
