@@ -58,9 +58,6 @@ def getCountriesList():
     return countriesListResponse.json()
 
 
-countriesList = getCountriesList()
-
-
 def getLatLongFromAddress(address):
     geoLocationResponse = requests.get(
         geoLocationBaseURL + address, headers=headers)
@@ -117,7 +114,7 @@ def getcurrDataForIndia():
     res = json.loads(countryResponse.content, object_pairs_hook=OrderedDict)
     if 'updated' in res:
         res['updated'] = datetime.fromtimestamp(
-            int(res['updated']) / 1000).strftime('%Y-%m-%d')
+            int(res['updated']) / 1000)
     if 'states' in res:
         for stateData in res['states']:
             stateData['state'] = stateData['state'].replace('*', '')
@@ -129,13 +126,16 @@ def getcurrDataForIndia():
     return res
 
 
+allCountriesData = {}
+
+countriesList = getCountriesList()
+print('Fetched Countries List.')
+
 currIndiaData = getcurrDataForIndia()
 currDataRef = db.collection('currentData')
 currDataDoc = currDataRef.document('India')
 currDataDoc.set(currIndiaData)
-
-
-allCountriesData = {}
+print('Fetched & Uploaded Current Data for India.')
 
 for country in countriesList:
     historicalData = getHistoricalDataForCountry(country)
@@ -143,10 +143,13 @@ for country in countriesList:
     collection_ref = db.collection('historicalData')
     doc_ref = collection_ref.document(country)
     doc_ref.set(historicalData)
+print('Fetched & Uploaded Historical Data for each country.')
 
 allCollectionRef = db.collection('historicalData')
 allDocRef = allCollectionRef.document('All')
 allDocRef.set(allCountriesData)
+
+print('Uploaded Historical Data for all countries.')
 
 
 print('Data uploaded to Firebase successfully!')
