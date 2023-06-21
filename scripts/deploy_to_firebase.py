@@ -117,9 +117,10 @@ def getcurrDataForIndia():
     res = json.loads(countryResponse.content, object_pairs_hook=OrderedDict)
     if 'updated' in res:
         res['updated'] = datetime.fromtimestamp(
-            int(res['updated']) / 1000).strftime('%Y-%m-%d %H:%M:%S.%f')
+            int(res['updated']) / 1000).strftime('%Y-%m-%d')
     if 'states' in res:
         for stateData in res['states']:
+            stateData['state'] = stateData['state'].replace('*', '')
             state = stateData['state']
             address = state + ', India'
             lat, long = getLatLongFromAddress(address)
