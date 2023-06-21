@@ -29,6 +29,8 @@ countryStatesMap = {}
 allCountriesData = {}
 allCountriesDiffData = {}
 
+# Tone down data without loosing trend
+
 
 def piecewiseAggregation(data, segments):
     if len(data) <= segments:
@@ -48,6 +50,8 @@ def piecewiseAggregation(data, segments):
 
     return reducedData
 
+# Used for Piecewise Aggregation
+
 
 def computeAggregateValue(segment):
     segmentStart = segment[0]['date']
@@ -61,12 +65,16 @@ def computeAggregateValue(segment):
 
     return aggregateValue
 
+# Fetch countries list
+
 
 def getCountriesList():
     countriesListResponse = requests.get(countryListBaseURL, headers=headers)
     if countriesListResponse.status_code != 200:
         return getCountriesList()
     return countriesListResponse.json()
+
+# Forward lookup, get lat-long from address
 
 
 def getLatLongFromAddress(address):
@@ -76,6 +84,8 @@ def getLatLongFromAddress(address):
         return getLatLongFromAddress(address)
     jsonData = geoLocationResponse.json()
     return (float(jsonData[0]["lat"]), float(jsonData[0]["lon"]))
+
+# Fetch Cummulative & Differential data for specific country
 
 
 def getHistoricalDataForCountry(country):
@@ -110,6 +120,8 @@ def getHistoricalDataForCountry(country):
     }
     return (jsonData, diffJsonData)
 
+# Get differential data from cummulative data
+
 
 def getDiffDataFromList(arr):
     res = []
@@ -119,6 +131,8 @@ def getDiffDataFromList(arr):
             'value': arr[i]['value'] - arr[i - 1]['value']
         })
     return res
+
+# Convert cases map to sorted list based on date
 
 
 def convertMapToSortedList(map):
@@ -133,6 +147,8 @@ def convertMapToSortedList(map):
         arr[i]["value"] = max(arr[i]["value"], arr[i - 1]["value"])
     return arr
 
+# Fetch current cases for specific country
+
 
 def getCurrDataForCountry(country):
     countryResponse = requests.get(
@@ -140,6 +156,8 @@ def getCurrDataForCountry(country):
     if countryResponse.status_code != 200:
         return getCurrDataForCountry(country)
     return json.loads(countryResponse.content, object_pairs_hook=OrderedDict)
+
+# Fetch current cases for India
 
 
 def getcurrDataForIndia():
