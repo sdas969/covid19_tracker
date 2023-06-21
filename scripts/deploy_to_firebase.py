@@ -153,16 +153,17 @@ currDataDoc = currDataRef.document('India')
 currDataDoc.set(currIndiaData)
 print('Fetched & Uploaded Current Data for India.')
 
+collection_ref = db.collection('historicalData')
+
 for country in countriesList:
     historicalData = getHistoricalDataForCountry(country)
     allCountriesData[country] = historicalData
-    collection_ref = db.collection('historicalData')
     doc_ref = collection_ref.document(country)
     doc_ref.set(historicalData)
 print('Fetched & Uploaded Historical Data for each country.')
 
-allCollectionRef = db.collection('historicalData')
-allDocRef = allCollectionRef.document('All')
+
+allDocRef = collection_ref.document('All')
 allDocRef.set(allCountriesData)
 
 print('Uploaded Historical Data for all countries.')
