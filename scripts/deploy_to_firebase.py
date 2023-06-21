@@ -104,7 +104,7 @@ def convertMapToSortedList(map):
 def getCurrDataForCountry(country):
     countryResponse = requests.get(
         countryListBaseURL + country, headers=headers)
-    if countryResponse.status_code == 200:
+    if countryResponse.status_code != 200:
         return getCurrDataForCountry(country)
     return json.loads(countryResponse.content, object_pairs_hook=OrderedDict)
 
@@ -112,8 +112,8 @@ def getCurrDataForCountry(country):
 def getcurrDataForIndia():
     countryResponse = requests.get(
         countryListBaseURL + "India", headers=headers)
-    if countryResponse.status_code == 200:
-        return getCurrDataForCountry(country)
+    if countryResponse.status_code != 200:
+        return getcurrDataForIndia()
     res = json.loads(countryResponse.content, object_pairs_hook=OrderedDict)
     if 'updated' in res:
         res['updated'] = datetime.fromtimestamp(
