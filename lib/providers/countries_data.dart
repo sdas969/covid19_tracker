@@ -17,7 +17,7 @@ class CountriesDataProvider extends ChangeNotifier {
   String? _currGeoState;
   bool _isDifferential = true;
   bool _isCombined = true;
-  List<bool> _activeCategories = List.generate(3, (index) => true);
+  final List<bool> _activeCategories = List.generate(3, (index) => true);
   LoadingState _statsLoadingState = LoadingState.toBeLoaded;
   LoadingState _timelineLoadingState = LoadingState.toBeLoaded;
 
