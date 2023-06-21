@@ -12,19 +12,14 @@ class SegregatedGraph extends StatelessWidget {
   Widget build(BuildContext context) => Consumer<CountriesDataProvider>(
           builder: (context, countriesDataProvider, _) {
         final casesDataList = countriesDataProvider.isDifferential
-            ? countriesDataProvider
-                .countryTimeline!.timeline!.cases!.diffDataList!
-            : countriesDataProvider.countryTimeline!.timeline!.cases!.dataList!;
+            ? countriesDataProvider.diffCountryTimeline!.cases!
+            : countriesDataProvider.countryTimeline!.cases!;
         final recoveredDataList = countriesDataProvider.isDifferential
-            ? countriesDataProvider
-                .countryTimeline!.timeline!.recovered!.diffDataList!
-            : countriesDataProvider
-                .countryTimeline!.timeline!.recovered!.dataList!;
+            ? countriesDataProvider.diffCountryTimeline!.recovered!
+            : countriesDataProvider.countryTimeline!.recovered!;
         final deathsDataList = countriesDataProvider.isDifferential
-            ? countriesDataProvider
-                .countryTimeline!.timeline!.deaths!.diffDataList!
-            : countriesDataProvider
-                .countryTimeline!.timeline!.deaths!.dataList!;
+            ? countriesDataProvider.diffCountryTimeline!.deaths!
+            : countriesDataProvider.countryTimeline!.deaths!;
         return ResponsiveGridRow(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [

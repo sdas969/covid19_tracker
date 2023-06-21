@@ -7,7 +7,5 @@ bool isTimelineFetched(BuildContext context) {
   CountriesDataProvider countryDataProvider =
       Provider.of(context, listen: false);
   return countryDataProvider.timelineLoadingState == LoadingState.loaded &&
-      countryDataProvider.countryTimeline != null &&
-      countryDataProvider.countryTimeline!.success != null &&
-      countryDataProvider.countryTimeline!.success!;
+      countryDataProvider.countryTimeline != null;
 }

@@ -1,12 +1,12 @@
 import 'package:covid19_tracker/constants/timeline_content.dart';
-import 'package:covid19_tracker/models/pair.dart';
+import 'package:covid19_tracker/models/country_timeline.dart';
 import 'package:covid19_tracker/utils/get_spline_area_series.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-ResponsiveGridCol getSingleGraph(String title,
-    List<Pair<DateTime, int>> dataList, LinearGradient linearGradient) {
+ResponsiveGridCol getSingleGraph(
+    String title, List<CaseType> dataList, LinearGradient linearGradient) {
   final layoutConfig = (title != 'Deaths'
       ? contractedTimelineLayoutConfig
       : expandedTimelineLayoutConfig);
