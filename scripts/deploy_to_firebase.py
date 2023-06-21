@@ -96,17 +96,17 @@ def getHistoricalDataForCountry(country):
         'country': country,
         'lat': lat,
         'long': long,
-        'cases': piecewiseAggregation(convertMapToSortedList(cases), 20),
-        'recovered': piecewiseAggregation(convertMapToSortedList(recovered), 20),
-        'deaths': piecewiseAggregation(convertMapToSortedList(deaths), 20),
+        'cases': piecewiseAggregation(cases, 20),
+        'recovered': piecewiseAggregation(recovered, 20),
+        'deaths': piecewiseAggregation(deaths, 20),
     }
     diffJsonData = {
         'country': country,
         'lat': lat,
         'long': long,
-        'cases': piecewiseAggregation(convertMapToSortedList(diffCases), 20),
-        'recovered': piecewiseAggregation(convertMapToSortedList(diffRecovered), 20),
-        'deaths': piecewiseAggregation(convertMapToSortedList(diffDeaths), 20),
+        'cases': piecewiseAggregation(diffCases, 20),
+        'recovered': piecewiseAggregation(diffRecovered, 20),
+        'deaths': piecewiseAggregation(diffDeaths, 20),
     }
     return (jsonData, diffJsonData)
 
@@ -119,24 +119,6 @@ def getDiffDataFromList(arr):
             'value': arr[i]['value'] - arr[i - 1]['value']
         })
     return res
-
-
-def getDiffHistoricalDataForCountry(country):
-    countryResponse = requests.get(
-        historicalDataBaseURL + country + historicalDataQueryParams, headers=headers)
-    if countryResponse.status_code != 200:
-        return getDiffHistoricalDataForCountry(country)
-    data = json.loads(countryResponse.content, object_pairs_hook=OrderedDict)
-    lat, long = getLatLongFromAddress(country)
-    jsonData = {
-        'country': country,
-        'lat': lat,
-        'long': long,
-        'cases': piecewiseAggregation(convertMapToSortedList(data['timeline']['cases']), 20),
-        'recovered': piecewiseAggregation(convertMapToSortedList(data['timeline']['recovered']), 20),
-        'deaths': piecewiseAggregation(convertMapToSortedList(data['timeline']['deaths']), 20)
-    }
-    return jsonData
 
 
 def convertMapToSortedList(map):
