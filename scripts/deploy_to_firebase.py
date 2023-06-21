@@ -193,9 +193,12 @@ print('Fetched & Uploaded Historical Data for each country.')
 
 allDocRef = collection_ref.document('All')
 allDocRef.set(allCountriesData)
+print('Uploaded Historical Data for all countries.')
+
 diffAllDocRef = diff_collection_ref.document('All')
 diffAllDocRef.set(allCountriesDiffData)
-print('Uploaded Historical Data for all countries.')
+print('Uploaded Differential Historical Data for all countries.')
+
 
 for country, data in countryStatesMap.items():
     countryStatesDocRef = countryStatesCollectionRef.document(country)
