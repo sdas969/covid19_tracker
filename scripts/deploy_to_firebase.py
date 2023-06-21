@@ -51,8 +51,6 @@ def piecewiseAggregation(data, segments):
     return reducedData
 
 # Used for Piecewise Aggregation
-
-
 def computeAggregateValue(segment):
     segmentStart = segment[0]['date']
 
@@ -223,4 +221,5 @@ for country, data in countryStatesMap.items():
     countryStatesDocRef.set(data)
 print('Uploaded Countries & States Data.')
 
+# Only print when all the tasks are done
 print('Data uploaded to Firebase successfully!')
