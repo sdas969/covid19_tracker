@@ -40,12 +40,15 @@ def computeAggregateValue(segment):
     return aggregateValue
 
 
+# Date formats and base URLs
 date_format = "%m/%d/%y"
 headers = {"accept": "application/json"}
 countryListBaseURL = 'https://disease.sh/v3/covid-19/gov/'
 historicalDataBaseURL = 'https://corona.lmao.ninja/v3/covid-19/historical/'
 historicalDataQueryParams = '?lastdays=all'
 geoLocationBaseURL = "https://geocode.maps.co/search?q="
+
+# Firebase credentials
 cred = credentials.Certificate('scripts/covid19_tracker_private_key.json')
 firebase_admin.initialize_app(cred)
 db = firestore.client()
