@@ -106,6 +106,9 @@ def getCurrDataForCountry(country):
     return json.loads(countryResponse.content, object_pairs_hook=OrderedDict)
 
 
+countryStatesMap = {}
+
+
 def getcurrDataForIndia():
     countryResponse = requests.get(
         countryListBaseURL + "India", headers=headers)
@@ -115,12 +118,22 @@ def getcurrDataForIndia():
     if 'updated' in res:
         res['updated'] = datetime.fromtimestamp(
             int(res['updated']) / 1000)
+    countryStatesMap['India'] = {'name': 'India'}
+    indiaData = countryStatesMap['India']
+    indiaData['states'] = []
+    states = indiaData['states']
     if 'states' in res:
         for stateData in res['states']:
             stateData['state'] = stateData['state'].replace('*', '')
             state = stateData['state']
             address = state + ', India'
             lat, long = getLatLongFromAddress(address)
+            states.append({
+                'name': state,
+                'country': 'India',
+                'lat': lat,
+                'long': long
+            })
             stateData['lat'] = lat
             stateData['long'] = long
     return res
@@ -150,6 +163,13 @@ allDocRef = allCollectionRef.document('All')
 allDocRef.set(allCountriesData)
 
 print('Uploaded Historical Data for all countries.')
+
+countryStatesCollectionRef = db.collection('countriesAndStates')
+for country, data in countryStatesMap.items():
+    countryStatesDocRef = countryStatesCollectionRef.document(country)
+    countryStatesDocRef.set(data)
+
+print('Uploaded Countries & States Data.')
 
 
 print('Data uploaded to Firebase successfully!')
