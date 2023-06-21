@@ -198,7 +198,7 @@ currIndiaData = getcurrDataForIndia()
 currDataDoc = currDataRef.document('India')
 currDataDoc.set(currIndiaData)
 print('Fetched & Uploaded Current Data for India.')
-
+#
 for country in countriesList:
     historicalData, diffHistoricalData = getHistoricalDataForCountry(country)
     allCountriesData[country] = historicalData
