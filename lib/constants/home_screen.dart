@@ -13,7 +13,7 @@ final DateFormat dateFormat = DateFormat('dd MMMM yyyy');
 final DateFormat timelineDateFormat = DateFormat('M/d/yy');
 
 final LayoutConfig layoutConfig =
-    LayoutConfig(lg: 4, md: 4, sm: 6, xl: 2, xs: 6);
+    LayoutConfig(lg: 4, md: 4, sm: 6, xl: 4, xs: 6);
 final List<StateModel> stateLayoutList = [
   StateModel(
       layoutConfig: layoutConfig,

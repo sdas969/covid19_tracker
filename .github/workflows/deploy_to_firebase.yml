@@ -5,7 +5,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: "0 0,12 * * *"
+    - cron: '0 0,8,16,23 * * *'  # Runs at 12 AM, 8 AM, 4 PM, and 11 PM
 
 jobs:
   deploy:
@@ -27,3 +27,32 @@ jobs:
         run: python scripts/deploy_to_firebase.py
         env:
           FIREBASE_SERVICE_ACCOUNT_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
+
+  retry:
+    needs: deploy
+    if: failure()
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Delay 1 hour
+        run: sleep 1h
+
+      - name: Retry Workflow
+        uses: actions/github-script@v4
+        with:
+          script: |
+            const { Octokit } = require("@octokit/core");
+            const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
+
+            async function runWorkflow() {
+              const response = await octokit.request('POST /repos/{owner}/{repo}/actions/workflows/{workflow_id}/dispatches', {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                workflow_id: context.workflow,
+              });
+
+              console.log(response);
+            }
+
+            runWorkflow();
