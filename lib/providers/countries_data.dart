@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:covid19_tracker/database_services/countries.dart';
 import 'package:covid19_tracker/database_services/geo_location.dart';
 import 'package:covid19_tracker/enums/loading_state.dart';
@@ -16,20 +18,24 @@ class CountriesDataProvider extends ChangeNotifier {
   String? _currCountry;
   String? _currState;
   String? _currGeoState;
+  String? _currCountryGeoJSONData;
   bool _isDifferential = true;
   bool _isCombined = true;
   final List<bool> _activeCategories = List.generate(3, (index) => true);
   LoadingState _statsLoadingState = LoadingState.toBeLoaded;
   LoadingState _timelineLoadingState = LoadingState.toBeLoaded;
+  LoadingState _mapLoadingState = LoadingState.toBeLoaded;
 
   List<Country>? get countries => _countries;
   String? get currCountry => _currCountry;
   String? get currState => _currState;
+  String? get currCountryGeoJSONData => _currCountryGeoJSONData;
   CountryData? get countryData => _countryData;
   CountryTimeline? get countryTimeline => _countryTimeline;
   CountryTimeline? get diffCountryTimeline => _diffCountryTimeline;
   LoadingState get statsLoadingState => _statsLoadingState;
   LoadingState get timelineLoadingState => _timelineLoadingState;
+  LoadingState get mapLoadingState => _mapLoadingState;
   bool get isDifferential => _isDifferential;
   bool get isCombined => _isCombined;
   List<bool> get activeCategories => _activeCategories;
@@ -39,6 +45,7 @@ class CountriesDataProvider extends ChangeNotifier {
     final country = await getCurrentLocation();
     await fetchCountryData(country);
     await fetchCountryTimeline(country);
+    await fetchCurrCountryGeoJSONData(country);
     notifyListeners();
   }
 
@@ -64,6 +71,13 @@ class CountriesDataProvider extends ChangeNotifier {
       _currState = '';
     }
     _statsLoadingState = LoadingState.loaded;
+    notifyListeners();
+  }
+
+  fetchCurrCountryGeoJSONData(String country) async {
+    _currCountryGeoJSONData =
+        await CountriesDatabaseService().fetchCountryGeoJSONData(country);
+    _mapLoadingState = LoadingState.loaded;
     notifyListeners();
   }
 

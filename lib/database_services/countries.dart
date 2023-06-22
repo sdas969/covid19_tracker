@@ -6,6 +6,7 @@ import 'package:covid19_tracker/constants/database_services.dart';
 import 'package:covid19_tracker/models/country.dart';
 import 'package:covid19_tracker/models/country_data.dart';
 import 'package:covid19_tracker/models/country_timeline.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
@@ -23,6 +24,17 @@ class CountriesDatabaseService {
       }
     } catch (error) {}
     return countryList;
+  }
+
+  Future<String> fetchCountryGeoJSONData(String country) async {
+    String jsonData = '';
+    try {
+      final data = await FirebaseStorage.instance
+          .ref('maps/${country.toLowerCase()}.json')
+          .getData();
+      jsonData = String.fromCharCodes(data!.toList());
+    } catch (e) {}
+    return jsonData;
   }
 
   Future<CountryData> fetchCountryData(String country) async {
