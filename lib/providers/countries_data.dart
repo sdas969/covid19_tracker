@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:covid19_tracker/database_services/countries.dart';
 import 'package:covid19_tracker/database_services/geo_location.dart';
 import 'package:covid19_tracker/enums/loading_state.dart';

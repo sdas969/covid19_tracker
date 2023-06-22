@@ -59,7 +59,12 @@ class OverallStatsContent extends StatelessWidget {
               }),
             ),
             ResponsiveGridCol(
-                xs: 12, lg: 3, xl: 3, sm: 12, md: 3, child: MapViewContent())
+                xs: 12,
+                lg: 3,
+                xl: 3,
+                sm: 12,
+                md: 3,
+                child: const MapViewContent())
           ],
         );
       });
