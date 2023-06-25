@@ -1,17 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class CountryData {
-  int? updated;
+  DateTime? updated;
   Total? total;
   List<States>? states;
-  String? infoMsg;
-  bool? success;
 
-  CountryData(
-      {this.updated, this.total, this.states, this.infoMsg, this.success});
+  CountryData({this.updated, this.total, this.states});
 
   CountryData.fromJson(Map<String, dynamic> json) {
-    updated = json['updated'];
-    infoMsg = json['infoMsg'];
-    success = json['success'];
+    updated = (json['updated'] as Timestamp).toDate();
     total = json['total'] != null ? Total.fromJson(json['total']) : null;
     if (json['states'] != null) {
       states = <States>[];
@@ -24,8 +21,6 @@ class CountryData {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['updated'] = updated;
-    data['success'] = success;
-    data['infoMsg'] = infoMsg;
     if (total != null) {
       data['total'] = total!.toJson();
     }
@@ -37,95 +32,103 @@ class CountryData {
 }
 
 class Total {
-  int? active;
   int? recovered;
-  int? deaths;
-  int? cases;
   int? todayActive;
+  int? active;
+  int? deaths;
   int? todayRecovered;
   int? todayDeaths;
+  int? cases;
   int? todayCases;
 
   Total(
-      {this.active,
-      this.recovered,
-      this.deaths,
-      this.cases,
+      {this.recovered,
       this.todayActive,
+      this.active,
+      this.deaths,
       this.todayRecovered,
       this.todayDeaths,
+      this.cases,
       this.todayCases});
 
   Total.fromJson(Map<String, dynamic> json) {
-    active = json['active'];
     recovered = json['recovered'];
-    deaths = json['deaths'];
-    cases = json['cases'];
     todayActive = json['todayActive'];
+    active = json['active'];
+    deaths = json['deaths'];
     todayRecovered = json['todayRecovered'];
     todayDeaths = json['todayDeaths'];
+    cases = json['cases'];
     todayCases = json['todayCases'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['active'] = active;
     data['recovered'] = recovered;
-    data['deaths'] = deaths;
-    data['cases'] = cases;
     data['todayActive'] = todayActive;
+    data['active'] = active;
+    data['deaths'] = deaths;
     data['todayRecovered'] = todayRecovered;
     data['todayDeaths'] = todayDeaths;
+    data['cases'] = cases;
     data['todayCases'] = todayCases;
     return data;
   }
 }
 
 class States {
-  String? state;
-  int? active;
-  int? recovered;
-  int? deaths;
+  double? lat;
   int? cases;
+  double? long;
+  String? state;
+  int? todayCases;
+  int? deaths;
   int? todayActive;
   int? todayRecovered;
   int? todayDeaths;
-  int? todayCases;
+  int? recovered;
+  int? active;
 
   States(
-      {this.state,
-      this.active,
-      this.recovered,
-      this.deaths,
+      {this.lat,
       this.cases,
+      this.long,
+      this.state,
+      this.todayCases,
+      this.deaths,
       this.todayActive,
       this.todayRecovered,
       this.todayDeaths,
-      this.todayCases});
+      this.recovered,
+      this.active});
 
   States.fromJson(Map<String, dynamic> json) {
-    state = json['state'];
-    active = json['active'];
-    recovered = json['recovered'];
-    deaths = json['deaths'];
+    lat = json['lat'];
     cases = json['cases'];
+    long = json['long'];
+    state = json['state'];
+    todayCases = json['todayCases'];
+    deaths = json['deaths'];
     todayActive = json['todayActive'];
     todayRecovered = json['todayRecovered'];
     todayDeaths = json['todayDeaths'];
-    todayCases = json['todayCases'];
+    recovered = json['recovered'];
+    active = json['active'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['state'] = state;
-    data['active'] = active;
-    data['recovered'] = recovered;
-    data['deaths'] = deaths;
+    data['lat'] = lat;
     data['cases'] = cases;
+    data['long'] = long;
+    data['state'] = state;
+    data['todayCases'] = todayCases;
+    data['deaths'] = deaths;
     data['todayActive'] = todayActive;
     data['todayRecovered'] = todayRecovered;
     data['todayDeaths'] = todayDeaths;
-    data['todayCases'] = todayCases;
+    data['recovered'] = recovered;
+    data['active'] = active;
     return data;
   }
 }

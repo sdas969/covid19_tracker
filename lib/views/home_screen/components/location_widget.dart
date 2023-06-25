@@ -1,6 +1,6 @@
 import 'package:covid19_tracker/enums/loading_state.dart';
 import 'package:covid19_tracker/providers/countries_data.dart';
-import 'package:covid19_tracker/widgets/loading_widget.dart';
+import 'package:covid19_tracker/widgets/text_loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,7 +15,7 @@ class LocationWidget extends StatelessWidget {
           builder: (context, countriesDataProvider, _) {
         if (countriesDataProvider.statsLoadingState != LoadingState.loaded ||
             countriesDataProvider.countryData == null) {
-          return const LoadingWidget();
+          return const TextLoadingWidget();
         }
         return Text(
             (countriesDataProvider.currState != null)
@@ -26,7 +26,7 @@ class LocationWidget extends StatelessWidget {
       subtitle: Consumer<CountriesDataProvider>(
           builder: (context, countriesDataProvider, _) {
         if (countriesDataProvider.statsLoadingState != LoadingState.loaded) {
-          return const LoadingWidget();
+          return const TextLoadingWidget();
         }
         return (countriesDataProvider.currState != null)
             ? Text(countriesDataProvider.currCountry!)

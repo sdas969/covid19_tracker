@@ -1,14 +1,11 @@
 // ignore_for_file: empty_catches
 
-import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:covid19_tracker/constants/database_services.dart';
 import 'package:covid19_tracker/models/country.dart';
 import 'package:covid19_tracker/models/country_data.dart';
 import 'package:covid19_tracker/models/country_timeline.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
 
 class CountriesDatabaseService {
   Future<List<Country>> fetchCountriesList() async {
@@ -38,26 +35,19 @@ class CountriesDatabaseService {
   }
 
   Future<CountryData> fetchCountryData(String country) async {
-    Map<String, dynamic> res = {'infoMsg': '', 'success': false};
+    Map<String, dynamic>? res = {};
 
     try {
-      final data = await http.get(Uri.parse("$baseCountryDataEndpoint$country"),
-          headers: baseHeader);
+      final data = await FirebaseFirestore.instance
+          .collection('currentData')
+          .doc(country)
+          .get();
 
-      if (data.statusCode == 200) {
-        final computedData = await compute(jsonDecode, data.body);
-        res.addAll(computedData);
-        res['success'] = true;
-        res['infoMsg'] = 'Success';
-      } else {
-        return await fetchCountryData(country);
+      if (data.exists) {
+        res = data.data();
       }
-    } catch (error) {
-      res['infoMsg'] = '$error';
-
-      return await fetchCountryData(country);
-    }
-    return CountryData.fromJson(res);
+    } catch (error) {}
+    return CountryData.fromJson(res!);
   }
 
   Future<CountryTimeline> fetchCountryTimeline(String country) async {

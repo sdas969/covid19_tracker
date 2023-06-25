@@ -2,6 +2,7 @@ import 'package:covid19_tracker/constants/timeline_content.dart';
 import 'package:covid19_tracker/providers/countries_data.dart';
 import 'package:covid19_tracker/utils/get_spline_area_series.dart';
 import 'package:covid19_tracker/utils/is_timeline_fetched.dart';
+import 'package:covid19_tracker/widgets/circular_loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -15,8 +16,7 @@ class CombinedGraph extends StatelessWidget {
         final fetchedData = isTimelineFetched(context);
         if (!fetchedData) {
           return const Padding(
-              padding: EdgeInsets.all(36.0),
-              child: Center(child: CircularProgressIndicator.adaptive()));
+              padding: EdgeInsets.all(36.0), child: CircularLoadingWidget());
         }
         final casesDataList = countriesDataProvider.isDifferential
             ? countriesDataProvider.diffCountryTimeline!.cases!

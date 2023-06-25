@@ -25,12 +25,9 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) => Consumer<CountriesDataProvider>(
           builder: (context, countriesDataProvider, _) {
         if (countriesDataProvider.statsLoadingState == LoadingState.loaded &&
-            countriesDataProvider.countryData != null &&
-            countriesDataProvider.countryData!.success != null &&
-            countriesDataProvider.countryData!.success!) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            AppNavigator().pushReplacement(context, const AppLayout());
-          });
+            countriesDataProvider.countryData != null) {
+          WidgetsBinding.instance.addPostFrameCallback((_) =>
+              AppNavigator().pushReplacement(context, const AppLayout()));
         }
         return Scaffold(
             body: Center(

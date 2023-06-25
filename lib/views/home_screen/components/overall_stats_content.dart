@@ -17,8 +17,7 @@ class OverallStatsContent extends StatelessWidget {
           builder: (context, countriesDataProvider, _) {
         final isDataLoaded =
             countriesDataProvider.statsLoadingState == LoadingState.loaded &&
-                countriesDataProvider.countryData != null &&
-                countriesDataProvider.countryData!.success!;
+                countriesDataProvider.countryData != null;
         final countryData =
             isDataLoaded ? countriesDataProvider.countryData!.total : null;
         final stateData = isDataLoaded

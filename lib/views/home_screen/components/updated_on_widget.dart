@@ -9,10 +9,8 @@ class UpdatedOnWidget extends StatelessWidget {
   loadLastUpdatedTime(CountriesDataProvider countryProvider) {
     if (countryProvider.statsLoadingState == LoadingState.loaded &&
         countryProvider.countryData != null &&
-        countryProvider.countryData!.success! &&
         countryProvider.countryData!.updated != null) {
-      return dateFormat.format(DateTime.fromMillisecondsSinceEpoch(
-          countryProvider.countryData!.updated!));
+      return dateFormat.format(countryProvider.countryData!.updated!);
     }
     return '...';
   }

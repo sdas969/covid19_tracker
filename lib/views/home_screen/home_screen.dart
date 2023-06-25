@@ -1,6 +1,5 @@
 import 'package:covid19_tracker/views/home_screen/components/app_content.dart';
 import 'package:covid19_tracker/widgets/custom_app_bar.dart';
-import 'package:covid19_tracker/views/home_screen/components/search_button.dart';
 import 'package:covid19_tracker/views/home_screen/components/theme_toggle_button.dart';
 import 'package:flutter/material.dart';
 
