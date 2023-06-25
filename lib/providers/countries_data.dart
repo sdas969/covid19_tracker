@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:covid19_tracker/database_services/countries.dart';
 import 'package:covid19_tracker/database_services/geo_location.dart';
 import 'package:covid19_tracker/enums/loading_state.dart';
@@ -16,7 +18,7 @@ class CountriesDataProvider extends ChangeNotifier {
   String? _currCountry;
   String? _currState;
   String? _currGeoState;
-  String? _currCountryGeoJSONData;
+  Uint8List? _currCountryGeoJSONData;
   bool _isDifferential = true;
   bool _isCombined = true;
   final List<bool> _activeCategories = List.generate(3, (index) => true);
@@ -27,7 +29,7 @@ class CountriesDataProvider extends ChangeNotifier {
   List<Country>? get countries => _countries;
   String? get currCountry => _currCountry;
   String? get currState => _currState;
-  String? get currCountryGeoJSONData => _currCountryGeoJSONData;
+  Uint8List? get currCountryGeoJSONData => _currCountryGeoJSONData;
   CountryData? get countryData => _countryData;
   CountryTimeline? get countryTimeline => _countryTimeline;
   CountryTimeline? get diffCountryTimeline => _diffCountryTimeline;

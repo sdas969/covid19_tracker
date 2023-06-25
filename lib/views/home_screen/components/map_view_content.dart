@@ -18,21 +18,22 @@ class MapViewContent extends StatelessWidget {
             countriesDataProvider.countryData == null ||
             countriesDataProvider.countryData!.success == null ||
             !countriesDataProvider.countryData!.success! ||
-            countriesDataProvider.mapLoadingState != LoadingState.loaded) {
+            countriesDataProvider.mapLoadingState != LoadingState.loaded ||
+            countriesDataProvider.currCountryGeoJSONData == null) {
           return const Center(child: CircularProgressIndicator());
         }
-        // if (countriesDataProvider.currCountryGeoJSONData == null ||
-        //     countriesDataProvider.currCountryGeoJSONData!.isEmpty) {
-        //   return const Text(
-        //     'No map data available for the current country.',
-        //     textAlign: TextAlign.center,
-        //   );
-        // }
+        if (countriesDataProvider.currCountryGeoJSONData!.isEmpty) {
+          return const Text(
+            'No map data available for the current country.',
+            textAlign: TextAlign.center,
+          );
+        }
         CountryData countryData = countriesDataProvider.countryData!;
         return SfMaps(
           layers: [
             MapShapeLayer(
-                source: MapShapeSource.asset('assets/maps/india.json',
+                source: MapShapeSource.memory(
+                    countriesDataProvider.currCountryGeoJSONData!,
                     shapeDataField: 'name',
                     primaryValueMapper: (int index) =>
                         countryData.states![index].state!,

@@ -194,8 +194,9 @@ print('Fetched Countries List.')
 currIndiaData = getcurrDataForIndia()
 
 currDataDoc = currDataRef.document('India')
-currDataDoc.set(currIndiaData)
-print('Fetched & Uploaded Current Data for India.')
+if currIndiaData:
+    currDataDoc.set(currIndiaData)
+    print('Fetched & Uploaded Current Data for India.')
 
 for country in countriesList:
     historicalData, diffHistoricalData = getHistoricalDataForCountry(country)
@@ -203,22 +204,27 @@ for country in countriesList:
     allCountriesDiffData[country] = diffHistoricalData
     doc_ref = collection_ref.document(country)
     diff_doc_ref = diff_collection_ref.document(country)
-    doc_ref.set(historicalData)
-    diff_doc_ref.set(diffHistoricalData)
+    if (historicalData):
+        doc_ref.set(historicalData)
+    if (diffHistoricalData):
+        diff_doc_ref.set(diffHistoricalData)
 print('Fetched & Uploaded Historical Data for each country.')
 
 allDocRef = collection_ref.document('All')
-allDocRef.set(allCountriesData)
-print('Uploaded Historical Data for all countries.')
+if allCountriesData:
+    allDocRef.set(allCountriesData)
+    print('Uploaded Historical Data for all countries.')
 
 diffAllDocRef = diff_collection_ref.document('All')
-diffAllDocRef.set(allCountriesDiffData)
-print('Uploaded Differential Historical Data for all countries.')
+if allCountriesDiffData:
+    diffAllDocRef.set(allCountriesDiffData)
+    print('Uploaded Differential Historical Data for all countries.')
 
 
 for country, data in countryStatesMap.items():
     countryStatesDocRef = countryStatesCollectionRef.document(country)
-    countryStatesDocRef.set(data)
+    if data:
+        countryStatesDocRef.set(data)
 print('Uploaded Countries & States Data.')
 
 # Only print when all the tasks are done

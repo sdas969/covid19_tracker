@@ -26,13 +26,13 @@ class CountriesDatabaseService {
     return countryList;
   }
 
-  Future<String> fetchCountryGeoJSONData(String country) async {
-    String jsonData = '';
+  Future<Uint8List?> fetchCountryGeoJSONData(String country) async {
+    Uint8List? jsonData;
     try {
-      final data = await FirebaseStorage.instance
-          .ref('maps/${country.toLowerCase()}.json')
+      jsonData = await FirebaseStorage.instance
+          .ref()
+          .child('maps/${country.toLowerCase()}.json')
           .getData();
-      jsonData = String.fromCharCodes(data!.toList());
     } catch (e) {}
     return jsonData;
   }
