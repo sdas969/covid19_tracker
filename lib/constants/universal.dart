@@ -1,4 +1,4 @@
 import 'package:flutter/material.dart';
 
-final cardShape =
-    RoundedRectangleBorder(borderRadius: BorderRadius.circular(20));
+final defaultBorderRadius = BorderRadius.circular(20);
+final cardShape = RoundedRectangleBorder(borderRadius: defaultBorderRadius);

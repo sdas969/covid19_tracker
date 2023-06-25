@@ -1,18 +1,22 @@
-import 'package:covid19_tracker/utils/app_navigator.dart';
+import 'package:covid19_tracker/views/home_screen/components/search_dialog.dart';
 import 'package:flutter/material.dart';
 
 class SearchButton extends StatelessWidget {
-  const SearchButton({
-    super.key,
-  });
+  const SearchButton({super.key, required this.heroText});
+  final String heroText;
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
+    return MaterialButton(
+        visualDensity: VisualDensity.compact,
+        //alignment: Alignment.bottomCenter,
         enableFeedback: true,
-        tooltip: 'Search',
-        icon: const Hero(
-            tag: 'search', child: Icon(Icons.search, color: Colors.white)),
-        onPressed: () => AppNavigator().push(context, const Text('data')));
+        //tooltip: 'Search',
+        child: Hero(
+            tag: heroText,
+            child: const Icon(Icons.search, color: Colors.white)),
+        onPressed: () => showDialog(
+            context: context,
+            builder: (context) => SearchDialog(heroText: heroText)));
   }
 }
