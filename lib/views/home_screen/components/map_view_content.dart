@@ -11,26 +11,23 @@ class MapViewContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Consumer<CountriesDataProvider>(
-          builder: (context, countriesDataProvider, _) {
-        if (countriesDataProvider.statsLoadingState != LoadingState.loaded ||
-            countriesDataProvider.countryData == null ||
-            countriesDataProvider.countryData!.success == null ||
-            !countriesDataProvider.countryData!.success! ||
-            countriesDataProvider.mapLoadingState != LoadingState.loaded ||
-            countriesDataProvider.currCountryGeoJSONData == null) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        if (countriesDataProvider.currCountryGeoJSONData!.isEmpty) {
-          return const Text(
-            'No map data available for the current country.',
-            textAlign: TextAlign.center,
-          );
-        }
-        CountryData countryData = countriesDataProvider.countryData!;
-        return SfMaps(
-          layers: [
+        padding: const EdgeInsets.all(16.0),
+        child: Consumer<CountriesDataProvider>(
+            builder: (context, countriesDataProvider, _) {
+          if (countriesDataProvider.statsLoadingState != LoadingState.loaded ||
+              countriesDataProvider.countryData == null ||
+              countriesDataProvider.countryData!.success == null ||
+              !countriesDataProvider.countryData!.success! ||
+              countriesDataProvider.mapLoadingState != LoadingState.loaded ||
+              countriesDataProvider.currCountryGeoJSONData == null) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (countriesDataProvider.currCountryGeoJSONData!.isEmpty) {
+            return const Text('No map data available for the current country.',
+                textAlign: TextAlign.center);
+          }
+          CountryData countryData = countriesDataProvider.countryData!;
+          return SfMaps(layers: [
             MapShapeLayer(
                 source: MapShapeSource.memory(
                     countriesDataProvider.currCountryGeoJSONData!,
@@ -39,13 +36,10 @@ class MapViewContent extends StatelessWidget {
                         countryData.states![index].state!,
                     bubbleSizeMapper: (int index) =>
                         countryData.states![index].cases!.toDouble(),
-                    bubbleColorValueMapper: (int index) {
-                      return Colors.red.withOpacity(0.5);
-                    },
+                    bubbleColorValueMapper: (int index) =>
+                        Colors.red.withOpacity(0.5),
                     dataCount: countryData.states!.length))
-          ],
-        );
-      }),
-    );
+          ]);
+        }));
   }
 }

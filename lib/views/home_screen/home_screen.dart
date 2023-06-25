@@ -21,9 +21,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) => const Scaffold(
           body: CustomScrollView(physics: BouncingScrollPhysics(), slivers: [
         CustomAppBar(
-            actions: [ThemeToggleButton(), SearchButton()],
+            actions: [ThemeToggleButton()],
             imgUrl: 'assets/Corona.png',
-            titleString: 'Corona Tracker'),
+            titleString: 'COVID-19 Tracker'),
         AppContent()
       ]));
 }
