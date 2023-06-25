@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_final_fields
+
 import 'dart:typed_data';
 
 import 'package:covid19_tracker/database_services/countries.dart';
@@ -7,6 +9,7 @@ import 'package:covid19_tracker/models/country.dart';
 import 'package:covid19_tracker/models/country_data.dart';
 import 'package:covid19_tracker/models/country_timeline.dart';
 import 'package:covid19_tracker/models/geo_location.dart';
+import 'package:covid19_tracker/models/pair.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -15,9 +18,8 @@ class CountriesDataProvider extends ChangeNotifier {
   CountryData? _countryData;
   CountryTimeline? _countryTimeline;
   CountryTimeline? _diffCountryTimeline;
-  String? _currCountry;
-  String? _currState;
-  String? _currGeoState;
+  Pair<String, String> _currCountryState = Pair('', '');
+  Pair<String, String> _currGeoCountryState = Pair('', '');
   Uint8List? _currCountryGeoJSONData;
   bool _isDifferential = true;
   bool _isCombined = true;
@@ -27,8 +29,7 @@ class CountriesDataProvider extends ChangeNotifier {
   LoadingState _mapLoadingState = LoadingState.toBeLoaded;
 
   List<Country>? get countries => _countries;
-  String? get currCountry => _currCountry;
-  String? get currState => _currState;
+  Pair<String, String> get currCountryState => _currCountryState;
   Uint8List? get currCountryGeoJSONData => _currCountryGeoJSONData;
   CountryData? get countryData => _countryData;
   CountryTimeline? get countryTimeline => _countryTimeline;
@@ -42,10 +43,12 @@ class CountriesDataProvider extends ChangeNotifier {
 
   Future initData() async {
     _countries = await CountriesDatabaseService().fetchCountriesList();
-    final country = await getCurrentLocation();
-    await fetchCountryData(country);
-    await fetchCountryTimeline(country);
-    await fetchCurrCountryGeoJSONData(country);
+    final countryState = await getCurrentLocation();
+    _currGeoCountryState = countryState;
+    _currCountryState.first = countryState.first;
+    await fetchCountryData(_currCountryState.first);
+    await fetchCountryTimeline(_currCountryState.first);
+    await fetchCurrCountryGeoJSONData(_currCountryState.first);
     notifyListeners();
   }
 
@@ -63,12 +66,12 @@ class CountriesDataProvider extends ChangeNotifier {
     _countryData = await CountriesDatabaseService().fetchCountryData(country);
     if (_countryData != null &&
         _countryData!.states != null &&
-        _countryData!.states!
-                .indexWhere((element) => element.state == _currGeoState) !=
+        _countryData!.states!.indexWhere(
+                (element) => element.state == _currGeoCountryState.second) !=
             -1) {
-      _currState = _currGeoState;
+      _currCountryState.second = _currGeoCountryState.second;
     } else {
-      _currState = '';
+      _currCountryState.second = '';
     }
     _statsLoadingState = LoadingState.loaded;
     notifyListeners();
@@ -109,18 +112,19 @@ class CountriesDataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<String> getCurrentLocation() async {
+  Future<Pair<String, String>> getCurrentLocation() async {
     _statsLoadingState = LoadingState.loading;
     notifyListeners();
-    _currCountry = (_countries != null && _countries!.isNotEmpty)
+    Pair<String, String> countryState = Pair('', '');
+    countryState.first = ((_countries != null && _countries!.isNotEmpty)
         ? _countries?.first.name
-        : '';
+        : '') as String;
     try {
       final permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied ||
           permission == LocationPermission.deniedForever ||
           permission == LocationPermission.unableToDetermine) {
-        return currCountry ?? '';
+        return countryState;
       }
 
       Position position = await Geolocator.getCurrentPosition(
@@ -129,12 +133,13 @@ class CountriesDataProvider extends ChangeNotifier {
       final geoData = await GeoLocationDatabaseService()
           .fetchGeoLocation(position.latitude, position.longitude);
       if (validate(geoData, _countries, geoData.address!.country)) {
-        _currCountry = geoData.address!.country;
-        _currGeoState = geoData.address!.state;
+        countryState.first = geoData.address!.country ?? '';
+        countryState.second = geoData.address!.state ?? '';
       }
-      // ignore: empty_catches
-    } catch (e) {}
-    return _currCountry ?? '';
+    } catch (e) {
+      return countryState;
+    }
+    return countryState;
   }
 
   bool validate(

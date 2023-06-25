@@ -12,7 +12,7 @@ class GraphCardTitleWidget extends StatelessWidget {
   Widget build(BuildContext context) => Consumer<CountriesDataProvider>(
           builder: (context, countriesDataProvider, _) {
         String countryText = isTimelineFetched(context)
-            ? countriesDataProvider.currCountry!
+            ? countriesDataProvider.currCountryState.first
             : '...';
         return Text('Country Timeline : $countryText',
             style: const TextStyle(

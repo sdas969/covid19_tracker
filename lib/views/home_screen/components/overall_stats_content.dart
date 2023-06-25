@@ -20,13 +20,15 @@ class OverallStatsContent extends StatelessWidget {
                 countriesDataProvider.countryData != null;
         final countryData =
             isDataLoaded ? countriesDataProvider.countryData!.total : null;
-        final stateData = isDataLoaded
+        final showCountry =
+            countriesDataProvider.currCountryState.first.isNotEmpty &&
+                countriesDataProvider.currCountryState.second.isEmpty;
+        final stateData = (isDataLoaded && !showCountry)
             ? countriesDataProvider.countryData!.states!.firstWhere((element) =>
-                StringUtils().stringMatch(
-                    element.state ?? '', countriesDataProvider.currState ?? ''))
+                StringUtils().stringMatch(element.state ?? '',
+                    countriesDataProvider.currCountryState.second))
             : null;
-        final showCountry = countriesDataProvider.currCountry != null &&
-            countriesDataProvider.currState == null;
+
         final data = isDataLoaded
             ? (showCountry ? countryData!.toJson() : stateData!.toJson())
             : null;

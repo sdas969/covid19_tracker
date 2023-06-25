@@ -18,9 +18,9 @@ class LocationWidget extends StatelessWidget {
           return const TextLoadingWidget();
         }
         return Text(
-            (countriesDataProvider.currState != null)
-                ? countriesDataProvider.currState!
-                : countriesDataProvider.currCountry!,
+            (countriesDataProvider.currCountryState.second.isNotEmpty)
+                ? countriesDataProvider.currCountryState.second
+                : countriesDataProvider.currCountryState.first,
             style: TextStyle(fontSize: titleSize, fontWeight: FontWeight.w900));
       }),
       subtitle: Consumer<CountriesDataProvider>(
@@ -28,8 +28,8 @@ class LocationWidget extends StatelessWidget {
         if (countriesDataProvider.statsLoadingState != LoadingState.loaded) {
           return const TextLoadingWidget();
         }
-        return (countriesDataProvider.currState != null)
-            ? Text(countriesDataProvider.currCountry!)
+        return (countriesDataProvider.currCountryState.second.isNotEmpty)
+            ? Text(countriesDataProvider.currCountryState.first)
             : const SizedBox();
       }),
     );
