@@ -30,6 +30,7 @@ class CountriesDataProvider extends ChangeNotifier {
 
   List<Country>? get countries => _countries;
   Pair<String, String> get currCountryState => _currCountryState;
+  Pair<String, String> get currGeoCountryState => _currGeoCountryState;
   Uint8List? get currCountryGeoJSONData => _currCountryGeoJSONData;
   CountryData? get countryData => _countryData;
   CountryTimeline? get countryTimeline => _countryTimeline;
@@ -46,7 +47,7 @@ class CountriesDataProvider extends ChangeNotifier {
     final countryState = await getCurrentLocation();
     _currGeoCountryState = countryState;
     _currCountryState.first = countryState.first;
-    await fetchCountryData(_currCountryState.first);
+    await fetchCountryData(_currCountryState.first, true);
     await fetchCountryTimeline(_currCountryState.first);
     await fetchCurrCountryGeoJSONData(_currCountryState.first);
     notifyListeners();
@@ -62,17 +63,28 @@ class CountriesDataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  fetchCountryData(String country) async {
+  changeLocation(Pair<String, String> location) async {
+    _currCountryState = location;
+    await fetchCountryData(_currCountryState.first, false);
+    await fetchCountryTimeline(_currCountryState.first);
+    await fetchCurrCountryGeoJSONData(_currCountryState.first);
+    notifyListeners();
+  }
+
+  fetchCountryData(String country, bool isGeolocation) async {
     _countryData = await CountriesDatabaseService().fetchCountryData(country);
-    if (_countryData != null &&
-        _countryData!.states != null &&
-        _countryData!.states!.indexWhere(
-                (element) => element.state == _currGeoCountryState.second) !=
-            -1) {
-      _currCountryState.second = _currGeoCountryState.second;
-    } else {
-      _currCountryState.second = '';
+    if (isGeolocation) {
+      if (_countryData != null &&
+          _countryData!.states != null &&
+          _countryData!.states!.indexWhere(
+                  (element) => element.state == _currGeoCountryState.second) !=
+              -1) {
+        _currCountryState.second = _currGeoCountryState.second;
+      } else {
+        _currCountryState.second = '';
+      }
     }
+
     _statsLoadingState = LoadingState.loaded;
     notifyListeners();
   }

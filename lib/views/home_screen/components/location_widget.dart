@@ -28,36 +28,33 @@ class _LocationWidgetState extends State<LocationWidget> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return ListTile(title: Consumer<CountriesDataProvider>(
-        builder: (context, countriesDataProvider, _) {
-      if (countriesDataProvider.statsLoadingState != LoadingState.loaded ||
-          countriesDataProvider.countryData == null) {
-        return const TextLoadingWidget();
-      }
-      return Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          textBaseline: TextBaseline.alphabetic,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(
-                (countriesDataProvider.currCountryState.second.isNotEmpty)
-                    ? countriesDataProvider.currCountryState.second
-                    : countriesDataProvider.currCountryState.first,
-                style: TextStyle(
-                    fontSize: widget.titleSize, fontWeight: FontWeight.w900)),
-            const SearchButton(
-              heroText: 'search',
-            )
-          ]);
-    }), subtitle: Consumer<CountriesDataProvider>(
-        builder: (context, countriesDataProvider, _) {
-      if (countriesDataProvider.statsLoadingState != LoadingState.loaded) {
-        return const TextLoadingWidget();
-      }
-      return (countriesDataProvider.currCountryState.second.isNotEmpty)
-          ? Text(countriesDataProvider.currCountryState.first)
-          : const SizedBox();
-    }));
-  }
+  Widget build(BuildContext context) =>
+      ListTile(title: Consumer<CountriesDataProvider>(
+          builder: (context, countriesDataProvider, _) {
+        if (countriesDataProvider.statsLoadingState != LoadingState.loaded ||
+            countriesDataProvider.countryData == null) {
+          return const TextLoadingWidget();
+        }
+        return Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            textBaseline: TextBaseline.alphabetic,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                  (countriesDataProvider.currCountryState.second.isNotEmpty)
+                      ? countriesDataProvider.currCountryState.second
+                      : countriesDataProvider.currCountryState.first,
+                  style: TextStyle(
+                      fontSize: widget.titleSize, fontWeight: FontWeight.w900)),
+              const SearchButton(heroText: 'search', searchType: 1)
+            ]);
+      }), subtitle: Consumer<CountriesDataProvider>(
+          builder: (context, countriesDataProvider, _) {
+        if (countriesDataProvider.statsLoadingState != LoadingState.loaded) {
+          return const TextLoadingWidget();
+        }
+        return (countriesDataProvider.currCountryState.second.isNotEmpty)
+            ? Text(countriesDataProvider.currCountryState.first)
+            : const SizedBox();
+      }));
 }

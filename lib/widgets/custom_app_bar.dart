@@ -6,7 +6,9 @@ class CustomAppBar extends StatelessWidget {
       {super.key,
       this.actions = const [],
       required this.imgUrl,
+      this.collapsedHeight,
       this.flexibleSpace,
+      this.bottom,
       this.pinned = false,
       this.elevation = 10,
       this.expandedHeight = 250,
@@ -23,12 +25,16 @@ class CustomAppBar extends StatelessWidget {
   final double elevation, expandedHeight;
   final TextStyle titleTextStyle;
   final Widget? flexibleSpace;
+  final PreferredSizeWidget? bottom;
+  final double? collapsedHeight;
 
   @override
   Widget build(BuildContext context) => SliverAppBar(
       elevation: elevation,
+      collapsedHeight: collapsedHeight,
       shape: shape,
       pinned: pinned,
+      bottom: bottom,
       actions: actions,
       expandedHeight: expandedHeight,
       centerTitle: true,
