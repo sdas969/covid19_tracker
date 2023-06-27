@@ -3,6 +3,7 @@ import 'package:covid19_tracker/constants/universal.dart';
 import 'package:covid19_tracker/models/country.dart';
 import 'package:covid19_tracker/models/pair.dart';
 import 'package:covid19_tracker/providers/countries_data.dart';
+import 'package:covid19_tracker/utils/app_navigator.dart';
 import 'package:covid19_tracker/widgets/custom_app_bar.dart';
 import 'package:covid19_tracker/widgets/fade_on_scroll.dart';
 import 'package:flutter/material.dart';
@@ -103,6 +104,7 @@ class _SearchDialogState extends State<SearchDialog> {
       location.second = states[index];
     }
     _countriesDataProvider.changeLocation(location);
+    AppNavigator().pop(context);
   }
 
   void handleSearch(String value) {
