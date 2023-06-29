@@ -31,6 +31,14 @@ class _CardContentWidgetState extends State<CardContentWidget> {
     final formatter = NumberFormat.compact();
 
     if (widget.state.override) {
+      if (isOverflowing) {
+        return formatter.format(((widget.data[widget.state.numerator] /
+                        widget.data[widget.state.denominator]) *
+                    (widget.state.isPercentage! ? 1 : 0) *
+                    100 as double)
+                .round()) +
+            (widget.state.isPercentage! ? ' %' : '');
+      }
       return ((widget.data[widget.state.numerator] /
                       widget.data[widget.state.denominator]) *
                   (widget.state.isPercentage! ? 1 : 0) *
@@ -39,7 +47,8 @@ class _CardContentWidgetState extends State<CardContentWidget> {
           (widget.state.isPercentage! ? ' %' : '');
     }
     if (isOverflowing) {
-      return formatter.format(widget.data[widget.state.name]);
+      return formatter
+          .format((widget.data[widget.state.name] as double).round());
     }
     return widget.data[widget.state.name].toString();
   }
@@ -50,39 +59,39 @@ class _CardContentWidgetState extends State<CardContentWidget> {
   }
 
   @override
-  Widget build(BuildContext context) => Row(
-          crossAxisAlignment: CrossAxisAlignment.baseline,
-          textBaseline: TextBaseline.alphabetic,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(child: LayoutBuilder(builder: (context, constraints) {
-              bool isOverflowing = false;
-              if (!widget.state.override) {
-                final textSpan = TextSpan(
-                  text: widget.data[widget.state.name].toString(),
-                  style: widget.textStyle,
-                );
-                final textPainter = TextPainter(
-                  text: textSpan,
-                  textDirection: Directionality.of(context),
-                  maxLines: 1,
-                );
-                textPainter.layout(maxWidth: constraints.maxWidth);
-                final isOverflowingNow = textPainter.didExceedMaxLines;
-                isOverflowing = isOverflowingNow;
-              }
+  Widget build(BuildContext context) {
+    return Row(
+        crossAxisAlignment: CrossAxisAlignment.baseline,
+        textBaseline: TextBaseline.alphabetic,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(child: LayoutBuilder(builder: (context, constraints) {
+            bool isOverflowing = false;
+            final textSpan = TextSpan(
+                text: widget.data[widget.state.name].toString() +
+                    (widget.state.override && widget.state.isPercentage!
+                        ? ' %'
+                        : ''),
+                style: widget.textStyle);
+            final textPainter = TextPainter(
+                text: textSpan,
+                textDirection: Directionality.of(context),
+                maxLines: 1);
+            textPainter.layout(maxWidth: constraints.maxWidth);
+            final isOverflowingNow = textPainter.didExceedMaxLines;
+            isOverflowing = isOverflowingNow;
 
-              return Text(
-                  widget.isDataLoaded ? formatData(isOverflowing) : '...',
-                  maxLines: widget.maxLines,
-                  overflow: widget.textOverflow,
-                  textAlign: widget.textAlign,
-                  style: widget.textStyle.copyWith(color: widget.state.color));
-            })),
-            if (widget.state.showIncrement)
-              IncrementDecrementWidget(
-                  change: widget.data[widget.state.subtitle],
-                  isDataLoaded: widget.isDataLoaded,
-                  color: widget.state.color)
-          ]);
+            return Text(widget.isDataLoaded ? formatData(isOverflowing) : '...',
+                maxLines: widget.maxLines,
+                overflow: widget.textOverflow,
+                textAlign: widget.textAlign,
+                style: widget.textStyle.copyWith(color: widget.state.color));
+          })),
+          if (widget.state.showIncrement)
+            IncrementDecrementWidget(
+                change: widget.data[widget.state.subtitle],
+                isDataLoaded: widget.isDataLoaded,
+                color: widget.state.color)
+        ]);
+  }
 }

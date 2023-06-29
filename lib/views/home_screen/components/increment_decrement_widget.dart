@@ -31,6 +31,7 @@ class IncrementDecrementWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Row(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           textBaseline: TextBaseline.alphabetic,
           children: [
