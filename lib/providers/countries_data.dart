@@ -20,10 +20,10 @@ class CountriesDataProvider extends ChangeNotifier {
   CountryTimeline? _diffCountryTimeline;
   Pair<String, String> _currCountryState = Pair('', '');
   Pair<String, String> _currGeoCountryState = Pair('', '');
+  String _currTimelineCountry = '';
   Uint8List? _currCountryGeoJSONData;
   bool _isDifferential = true;
   bool _isCombined = true;
-  final List<bool> _activeCategories = List.generate(3, (index) => true);
   LoadingState _statsLoadingState = LoadingState.toBeLoaded;
   LoadingState _timelineLoadingState = LoadingState.toBeLoaded;
   LoadingState _mapLoadingState = LoadingState.toBeLoaded;
@@ -40,7 +40,7 @@ class CountriesDataProvider extends ChangeNotifier {
   LoadingState get mapLoadingState => _mapLoadingState;
   bool get isDifferential => _isDifferential;
   bool get isCombined => _isCombined;
-  List<bool> get activeCategories => _activeCategories;
+  String get currTimelineCountry => _currTimelineCountry;
 
   Future initData() async {
     _countries = await CountriesDatabaseService().fetchCountriesList();
@@ -68,6 +68,12 @@ class CountriesDataProvider extends ChangeNotifier {
     await fetchCountryData(_currCountryState.first, false);
     await fetchCountryTimeline(_currCountryState.first);
     await fetchCurrCountryGeoJSONData(_currCountryState.first);
+    notifyListeners();
+  }
+
+  changeCountryForTimeline(String country) async {
+    _currTimelineCountry = country;
+    await fetchCountryTimeline(country);
     notifyListeners();
   }
 

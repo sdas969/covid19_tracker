@@ -25,10 +25,7 @@ class GraphCardTitleWidget extends StatelessWidget {
                       fontWeight: FontWeight.w900,
                       color: Colors.blueAccent,
                       fontSize: 30)),
-              const SearchButton(
-                heroText: 'timelineSearch',
-                searchType: 2,
-              )
+              const SearchButton(heroText: 'timelineSearch', searchType: 2)
             ]);
       });
 }

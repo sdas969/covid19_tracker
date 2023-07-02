@@ -204,6 +204,7 @@ for country in countriesList:
     allCountriesDiffData[country] = diffHistoricalData
     doc_ref = collection_ref.document(country)
     diff_doc_ref = diff_collection_ref.document(country)
+    countryStatesMap[country] = {}
     if (historicalData):
         doc_ref.set(historicalData)
     if (diffHistoricalData):
@@ -223,8 +224,7 @@ if allCountriesDiffData:
 
 for country, data in countryStatesMap.items():
     countryStatesDocRef = countryStatesCollectionRef.document(country)
-    if data:
-        countryStatesDocRef.set(data)
+    countryStatesDocRef.set(data)
 print('Uploaded Countries & States Data.')
 
 # Only print when all the tasks are done
