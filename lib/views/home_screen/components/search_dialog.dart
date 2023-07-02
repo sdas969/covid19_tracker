@@ -61,37 +61,9 @@ class _SearchDialogState extends State<SearchDialog> {
                 expandedHeight: 300,
                 collapsedHeight: 80,
                 pinned: true,
-                flexibleSpace: LayoutBuilder(builder: (context, constraints) {
-                  return FlexibleSpaceBar(
-                      stretchModes: stretchModes,
-                      centerTitle: true,
-                      background: FadeOnScroll(
-                          zeroOpacityOffset: 150,
-                          scrollController: _scrollController,
-                          child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Hero(
-                                  tag: widget.heroText,
-                                  child: const Icon(Icons.search, size: 100)))),
-                      expandedTitleScale: 1,
-                      titlePadding: EdgeInsets.symmetric(
-                          horizontal: constraints.maxWidth * 0.1, vertical: 16),
-                      title: Container(
-                          alignment: Alignment.bottomCenter,
-                          child: TextField(
-                              onChanged: handleSearch,
-                              decoration: InputDecoration(
-                                  hintText: 'Search Here...',
-                                  filled: true,
-                                  fillColor: Colors.black,
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 8, horizontal: 16),
-                                  prefixIcon: const Icon(Icons.search),
-                                  border: OutlineInputBorder(
-                                      borderSide: const BorderSide(width: 2),
-                                      borderRadius: defaultBorderRadius)),
-                              style: const TextStyle(fontSize: 14))));
-                }),
+                flexibleSpace: LayoutBuilder(
+                    builder: (context, constraints) =>
+                        getBackground(constraints)),
                 imgUrl: 'assets/Corona.png',
                 titleString: 'Search'),
             const SliverToBoxAdapter(child: SizedBox(height: 20)),
@@ -108,8 +80,45 @@ class _SearchDialogState extends State<SearchDialog> {
                         : handleCountryChange(countries[index])))
           ]))));
 
+  FlexibleSpaceBar getBackground(BoxConstraints constraints) {
+    return FlexibleSpaceBar(
+        stretchModes: stretchModes,
+        centerTitle: true,
+        background: FadeOnScroll(
+            zeroOpacityOffset: 150,
+            scrollController: _scrollController,
+            child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Hero(
+                    tag: widget.heroText,
+                    child: const Icon(Icons.search, size: 100)))),
+        expandedTitleScale: 1,
+        titlePadding: EdgeInsets.symmetric(
+            horizontal: constraints.maxWidth * 0.1, vertical: 16),
+        title: getSearchBox());
+  }
+
+  Container getSearchBox() {
+    return Container(
+        alignment: Alignment.bottomCenter,
+        child: TextField(
+            onChanged: handleSearch,
+            decoration: InputDecoration(
+                hintText: 'Search Here...',
+                filled: true,
+                fillColor: Colors.black,
+                contentPadding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                prefixIcon: const Icon(Icons.search),
+                border: OutlineInputBorder(
+                    borderSide: const BorderSide(width: 2),
+                    borderRadius: defaultBorderRadius)),
+            style: const TextStyle(fontSize: 14)));
+  }
+
   handleCountryChange(String country) {
     _countriesDataProvider.changeCountryForTimeline(country);
+    AppNavigator().pop(context);
     AppNavigator().pop(context);
   }
 

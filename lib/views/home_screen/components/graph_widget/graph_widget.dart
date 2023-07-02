@@ -1,6 +1,6 @@
 import 'package:covid19_tracker/providers/countries_data.dart';
-import 'package:covid19_tracker/views/home_screen/components/combined_graph.dart';
-import 'package:covid19_tracker/views/home_screen/components/segregated_graph.dart';
+import 'package:covid19_tracker/views/home_screen/components/graph_widget/combined_graph.dart';
+import 'package:covid19_tracker/views/home_screen/components/graph_widget/segregated_graph.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

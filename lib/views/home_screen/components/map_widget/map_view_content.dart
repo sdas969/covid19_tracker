@@ -1,7 +1,7 @@
 import 'package:covid19_tracker/enums/loading_state.dart';
 import 'package:covid19_tracker/models/country_data.dart';
 import 'package:covid19_tracker/providers/countries_data.dart';
-import 'package:covid19_tracker/views/home_screen/components/map_tooltip_widget.dart';
+import 'package:covid19_tracker/views/home_screen/components/map_widget/map_tooltip_widget.dart';
 import 'package:covid19_tracker/widgets/circular_loading_widget.dart';
 import 'package:covid19_tracker/widgets/no_map_data_widget.dart';
 import 'package:flutter/material.dart';

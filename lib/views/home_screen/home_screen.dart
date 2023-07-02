@@ -1,3 +1,4 @@
+import 'package:covid19_tracker/constants/universal.dart';
 import 'package:covid19_tracker/views/home_screen/components/app_content.dart';
 import 'package:covid19_tracker/views/home_screen/components/location_toggle_button.dart';
 import 'package:covid19_tracker/widgets/custom_app_bar.dart';
@@ -23,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
         CustomAppBar(
             actions: [LocationToggleButton(), ThemeToggleButton()],
             imgUrl: 'assets/Corona.png',
-            titleString: 'COVID-19 Tracker'),
+            titleString: appTitle),
         AppContent()
       ]));
 }

@@ -143,15 +143,11 @@ class CountriesDataProvider extends ChangeNotifier {
         : '') as String;
     try {
       final permission = await Geolocator.requestPermission();
-      print(countryState.first);
-      print(countryState.second);
       if (permission == LocationPermission.denied ||
           permission == LocationPermission.deniedForever ||
           permission == LocationPermission.unableToDetermine) {
         return countryState;
       }
-      print(countryState.first);
-      print(countryState.second);
 
       Position position = await Geolocator.getCurrentPosition(
           forceAndroidLocationManager: true,

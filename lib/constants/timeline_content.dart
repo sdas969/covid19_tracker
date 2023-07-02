@@ -53,3 +53,5 @@ final contractedTimelineLayoutConfig =
     LayoutConfig(lg: 4, md: 6, sm: 12, xl: 4, xs: 12);
 final expandedTimelineLayoutConfig =
     LayoutConfig(lg: 4, md: 12, sm: 12, xl: 4, xs: 12);
+
+enum SwitchType { combined, differential }

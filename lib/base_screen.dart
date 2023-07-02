@@ -1,5 +1,4 @@
-import 'dart:ui';
-
+import 'package:covid19_tracker/constants/universal.dart';
 import 'package:covid19_tracker/enums/loading_state.dart';
 import 'package:covid19_tracker/providers/app_theme.dart';
 import 'package:covid19_tracker/providers/countries_data.dart';
@@ -39,15 +38,9 @@ class _BaseScreenState extends State<BaseScreen> {
           return const SizedBox();
         }
         return MaterialApp(
-            scrollBehavior:
-                const MaterialScrollBehavior().copyWith(dragDevices: {
-              PointerDeviceKind.mouse,
-              PointerDeviceKind.touch,
-              PointerDeviceKind.stylus,
-              PointerDeviceKind.unknown
-            }),
+            scrollBehavior: appScrollBehaviour,
             debugShowCheckedModeBanner: false,
-            title: 'COVID-19 Tracker',
+            title: appTitle,
             theme: appThemeProvider.appThemeData,
             home: const SplashScreen());
       });

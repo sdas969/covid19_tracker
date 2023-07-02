@@ -1,3 +1,4 @@
+import 'package:covid19_tracker/constants/universal.dart';
 import 'package:flutter/material.dart';
 
 class TitleWidget extends StatelessWidget {
@@ -11,7 +12,7 @@ class TitleWidget extends StatelessWidget {
         return Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: Center(
-                child: Text('COVID-19 Tracker',
+                child: Text(appTitle,
                     style: TextStyle(
                         fontSize: textFontSize, fontWeight: FontWeight.w900))));
       }));

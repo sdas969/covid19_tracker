@@ -8,18 +8,17 @@ class ThemeToggleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AppThemeProvider>(builder: (context, appThemeProvider, _) {
-      return IconButton(
-          enableFeedback: true,
-          tooltip: appThemeProvider.appThemeCode! == 1
-              ? switchToLightText
-              : switchToDarkText,
-          alignment: Alignment.center,
-          onPressed: () =>
-              appThemeProvider.setAppTheme(1 - appThemeProvider.appThemeCode!),
-          icon: Icon(appThemeProvider.appThemeCode! == 1
-              ? Icons.light_mode
-              : Icons.dark_mode));
-    });
+    return Consumer<AppThemeProvider>(
+        builder: (context, appThemeProvider, _) => IconButton(
+            enableFeedback: true,
+            tooltip: appThemeProvider.appThemeCode! == 1
+                ? switchToLightText
+                : switchToDarkText,
+            alignment: Alignment.center,
+            onPressed: () => appThemeProvider
+                .setAppTheme(1 - appThemeProvider.appThemeCode!),
+            icon: Icon(appThemeProvider.appThemeCode! == 1
+                ? Icons.light_mode
+                : Icons.dark_mode)));
   }
 }

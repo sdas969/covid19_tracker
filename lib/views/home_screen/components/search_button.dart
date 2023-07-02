@@ -4,23 +4,30 @@ import 'package:flutter/material.dart';
 
 class SearchButton extends StatelessWidget {
   const SearchButton(
-      {super.key, required this.heroText, required this.searchType});
+      {super.key,
+      required this.heroText,
+      required this.searchType,
+      this.extended = false});
   final String heroText;
   final int searchType;
+  final bool extended;
 
   @override
   Widget build(BuildContext context) => Padding(
       padding: const EdgeInsets.symmetric(horizontal: 5.0),
       child: MaterialButton(
           elevation: 10,
-          padding: EdgeInsets.zero,
-          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          padding: extended ? null : const EdgeInsets.symmetric(horizontal: 2),
           shape: RoundedRectangleBorder(borderRadius: defaultBorderRadius),
-          child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 2.0),
-              child: Hero(
+          child: extended
+              ? ListTile(
+                  title: const Text('Search'),
+                  trailing: Hero(
+                      tag: heroText,
+                      child: const Icon(Icons.search, color: Colors.white)))
+              : Hero(
                   tag: heroText,
-                  child: const Icon(Icons.search, color: Colors.white))),
+                  child: const Icon(Icons.search, color: Colors.white)),
           onPressed: () => showDialog(
               context: context,
               builder: (context) =>

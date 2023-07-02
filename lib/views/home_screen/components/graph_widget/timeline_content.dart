@@ -1,7 +1,7 @@
 import 'package:covid19_tracker/constants/universal.dart';
 import 'package:covid19_tracker/providers/countries_data.dart';
-import 'package:covid19_tracker/views/home_screen/components/graph_card_header_widget.dart';
-import 'package:covid19_tracker/views/home_screen/components/graph_widget.dart';
+import 'package:covid19_tracker/views/home_screen/components/graph_widget/graph_card_header_widget.dart';
+import 'package:covid19_tracker/views/home_screen/components/graph_widget/graph_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

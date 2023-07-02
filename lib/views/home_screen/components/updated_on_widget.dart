@@ -16,13 +16,11 @@ class UpdatedOnWidget extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.only(top: 20),
-        child: Center(child: Consumer<CountriesDataProvider>(
-            builder: (context, countriesDataProvider, _) {
-          String lastUpdated = loadLastUpdatedTime(countriesDataProvider);
-          return Text('Updated on $lastUpdated', textAlign: TextAlign.center);
-        })));
-  }
+  Widget build(BuildContext context) => Padding(
+      padding: const EdgeInsets.only(top: 20),
+      child: Center(child: Consumer<CountriesDataProvider>(
+          builder: (context, countriesDataProvider, _) {
+        String lastUpdated = loadLastUpdatedTime(countriesDataProvider);
+        return Text('Updated on $lastUpdated', textAlign: TextAlign.center);
+      })));
 }
