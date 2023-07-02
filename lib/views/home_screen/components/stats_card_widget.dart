@@ -11,7 +11,7 @@ class StatsCardWidget extends StatelessWidget {
       required this.isDataLoaded,
       this.shape,
       this.margin = const EdgeInsets.all(8),
-      this.padding = const EdgeInsets.symmetric(vertical: 15, horizontal: 16),
+      this.padding = const EdgeInsets.all(15),
       this.elevation = 5,
       required this.state});
 

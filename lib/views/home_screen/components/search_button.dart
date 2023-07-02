@@ -20,16 +20,12 @@ class SearchButton extends StatelessWidget {
           padding: extended ? null : const EdgeInsets.symmetric(horizontal: 2),
           shape: RoundedRectangleBorder(borderRadius: defaultBorderRadius),
           child: extended
-              ? ListTile(
-                  title: const Text('Search'),
-                  trailing: Hero(
-                      tag: heroText,
-                      child: const Icon(Icons.search, color: Colors.white)))
-              : Hero(
-                  tag: heroText,
-                  child: const Icon(Icons.search, color: Colors.white)),
+              ? ListTile(title: const Text('Search'), trailing: getSearchIcon())
+              : getSearchIcon(),
           onPressed: () => showDialog(
               context: context,
               builder: (context) =>
                   SearchDialog(heroText: heroText, searchType: searchType))));
+
+  Hero getSearchIcon() => Hero(tag: heroText, child: const Icon(Icons.search));
 }

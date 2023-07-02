@@ -7,9 +7,12 @@ class CustomiseGraphWidget extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) => InkWell(
-      onTap: () => showDialog(
+  Widget build(BuildContext context) => IconButton(
+      onPressed: () => showDialog(
           context: context,
           builder: (context) => const CustomiseTimelineDialog()),
-      child: const Icon(Icons.settings));
+      visualDensity: VisualDensity.compact,
+      splashRadius: 25,
+      tooltip: 'Configure Graph',
+      icon: const Icon(Icons.settings));
 }

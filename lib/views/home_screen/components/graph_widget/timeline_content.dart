@@ -6,18 +6,26 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class TimelineContent extends StatelessWidget {
-  const TimelineContent({super.key, this.shape});
+  const TimelineContent(
+      {super.key,
+      this.shape,
+      this.padding = const EdgeInsets.all(15),
+      this.margin = const EdgeInsets.all(8),
+      this.elevation = 5});
   final ShapeBorder? shape;
+  final EdgeInsets padding;
+  final double elevation;
+  final EdgeInsets margin;
 
   @override
   Widget build(BuildContext context) => Consumer<CountriesDataProvider>(
       builder: (context, countriesDataProvider, _) => Card(
-          elevation: 10,
+          elevation: elevation,
           shape: shape ?? cardShape,
-          margin: const EdgeInsets.all(8),
-          child: const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Column(
+          margin: margin,
+          child: Padding(
+              padding: padding,
+              child: const Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
