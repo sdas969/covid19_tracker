@@ -23,6 +23,8 @@ class _SearchDialogState extends State<SearchDialog> {
   late CountriesDataProvider _countriesDataProvider;
   late Country currCountry;
   late List<String> initStateList;
+  late List<String> initCountryList;
+  late List<String> countries;
   late List<String> states;
   late ScrollController _scrollController;
   @override
@@ -35,6 +37,10 @@ class _SearchDialogState extends State<SearchDialog> {
         element.name == _countriesDataProvider.currCountryState.first);
     initStateList = [currCountry.name!] +
         currCountry.states!.map((state) => state.name!).toList();
+    initCountryList = _countriesDataProvider.countries!
+        .map((country) => country.name!)
+        .toList();
+    countries = initCountryList;
     states = initStateList;
     super.initState();
   }
@@ -90,18 +96,21 @@ class _SearchDialogState extends State<SearchDialog> {
                 titleString: 'Search'),
             const SliverToBoxAdapter(child: SizedBox(height: 20)),
             SliverList.builder(
-                itemCount: states.length,
+                itemCount:
+                    widget.searchType == 1 ? states.length : countries.length,
                 itemBuilder: (context, index) => ListTile(
-                    title: Text(states[index]),
-                    onTap: () =>
-                        handleLocationChange(_countriesDataProvider, index)))
+                    title: Text(widget.searchType == 1
+                        ? states[index]
+                        : countries[index]),
+                    onTap: () => handleLocationChange(
+                        _countriesDataProvider, states[index])))
           ]))));
 
-  handleLocationChange(CountriesDataProvider countriesDataProvider, int index) {
+  handleLocationChange(CountriesDataProvider states, String state) {
     Pair<String, String> location =
         Pair(_countriesDataProvider.currCountryState.first, '');
-    if (index != 0) {
-      location.second = states[index];
+    if (state != _countriesDataProvider.currCountryState.first) {
+      location.second = state;
     }
     _countriesDataProvider.changeLocation(location);
     AppNavigator().pop(context);
