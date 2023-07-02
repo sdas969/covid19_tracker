@@ -102,9 +102,16 @@ class _SearchDialogState extends State<SearchDialog> {
                     title: Text(widget.searchType == 1
                         ? states[index]
                         : countries[index]),
-                    onTap: () => handleLocationChange(
-                        _countriesDataProvider, states[index])))
+                    onTap: () => widget.searchType == 1
+                        ? handleLocationChange(
+                            _countriesDataProvider, states[index])
+                        : handleCountryChange(countries[index])))
           ]))));
+
+  handleCountryChange(String country) {
+    _countriesDataProvider.changeCountryForTimeline(country);
+    AppNavigator().pop(context);
+  }
 
   handleLocationChange(CountriesDataProvider states, String state) {
     Pair<String, String> location =
@@ -120,11 +127,18 @@ class _SearchDialogState extends State<SearchDialog> {
     final enteredString = value.toLowerCase().trim();
     setState(() {
       if (enteredString.isNotEmpty) {
-        states = initStateList
-            .where((element) => element.toLowerCase().contains(enteredString))
-            .toList();
+        if (widget.searchType == 1) {
+          states = initStateList
+              .where((element) => element.toLowerCase().contains(enteredString))
+              .toList();
+        } else {
+          countries = initCountryList
+              .where((element) => element.toLowerCase().contains(enteredString))
+              .toList();
+        }
       } else {
         states = initStateList;
+        countries = initCountryList;
       }
     });
   }

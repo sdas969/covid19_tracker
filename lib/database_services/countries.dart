@@ -20,6 +20,10 @@ class CountriesDatabaseService {
         }
       }
     } catch (error) {}
+    final indiaIndex =
+        countryList.indexWhere((element) => element.name == 'India');
+    final indiaData = countryList.removeAt(indiaIndex);
+    countryList.insert(0, indiaData);
     return countryList;
   }
 

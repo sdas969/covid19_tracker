@@ -47,6 +47,7 @@ class CountriesDataProvider extends ChangeNotifier {
     final countryState = await getCurrentLocation();
     _currGeoCountryState = countryState;
     _currCountryState.first = countryState.first;
+    _currTimelineCountry = _currCountryState.first;
     await fetchCountryData(_currCountryState.first, true);
     await fetchCountryTimeline(_currCountryState.first);
     await fetchCurrCountryGeoJSONData(_currCountryState.first);
@@ -65,6 +66,7 @@ class CountriesDataProvider extends ChangeNotifier {
 
   changeLocation(Pair<String, String> location) async {
     _currCountryState = location;
+    _currTimelineCountry = location.first;
     await fetchCountryData(_currCountryState.first, false);
     await fetchCountryTimeline(_currCountryState.first);
     await fetchCurrCountryGeoJSONData(_currCountryState.first);
@@ -72,6 +74,8 @@ class CountriesDataProvider extends ChangeNotifier {
   }
 
   changeCountryForTimeline(String country) async {
+    _timelineLoadingState = LoadingState.loading;
+    notifyListeners();
     _currTimelineCountry = country;
     await fetchCountryTimeline(country);
     notifyListeners();
@@ -139,11 +143,15 @@ class CountriesDataProvider extends ChangeNotifier {
         : '') as String;
     try {
       final permission = await Geolocator.requestPermission();
+      print(countryState.first);
+      print(countryState.second);
       if (permission == LocationPermission.denied ||
           permission == LocationPermission.deniedForever ||
           permission == LocationPermission.unableToDetermine) {
         return countryState;
       }
+      print(countryState.first);
+      print(countryState.second);
 
       Position position = await Geolocator.getCurrentPosition(
           forceAndroidLocationManager: true,
