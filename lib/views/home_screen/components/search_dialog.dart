@@ -103,16 +103,12 @@ class _SearchDialogState extends State<SearchDialog> {
         alignment: Alignment.bottomCenter,
         child: TextField(
             onChanged: handleSearch,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
                 hintText: 'Search Here...',
                 filled: true,
-                fillColor: Colors.black,
                 contentPadding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                prefixIcon: const Icon(Icons.search),
-                border: OutlineInputBorder(
-                    borderSide: const BorderSide(width: 2),
-                    borderRadius: defaultBorderRadius)),
+                    EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                prefixIcon: Icon(Icons.search)),
             style: const TextStyle(fontSize: 14)));
   }
 
