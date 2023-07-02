@@ -191,25 +191,31 @@ def getcurrDataForIndia():
 countriesList = getCountriesList()
 print('Fetched Countries List.')
 
-currIndiaData = getcurrDataForIndia()
-
-currDataDoc = currDataRef.document('India')
-if currIndiaData:
-    currDataDoc.set(currIndiaData)
-    print('Fetched & Uploaded Current Data for India.')
-
 for country in countriesList:
     historicalData, diffHistoricalData = getHistoricalDataForCountry(country)
     allCountriesData[country] = historicalData
     allCountriesDiffData[country] = diffHistoricalData
     doc_ref = collection_ref.document(country)
     diff_doc_ref = diff_collection_ref.document(country)
-    countryStatesMap[country] = {}
+    countryStatesMap[country] = {
+        'name': country,
+        'states' :[],
+    }
+    lat, long = getLatLongFromAddress(country)
+    countryStatesMap[country]['lat'] = lat
+    countryStatesMap[country]['long'] = long
     if (historicalData):
         doc_ref.set(historicalData)
     if (diffHistoricalData):
         diff_doc_ref.set(diffHistoricalData)
 print('Fetched & Uploaded Historical Data for each country.')
+
+currIndiaData = getcurrDataForIndia()
+
+currDataDoc = currDataRef.document('India')
+if currIndiaData:
+    currDataDoc.set(currIndiaData)
+    print('Fetched & Uploaded Current Data for India.')
 
 allDocRef = collection_ref.document('All')
 if allCountriesData:
