@@ -1,19 +1,22 @@
 import 'package:covid19_tracker/constants/home_screen.dart';
+import 'package:covid19_tracker/widgets/fade_on_scroll.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget {
   const CustomAppBar(
       {super.key,
+      required this.scrollController,
       this.actions = const [],
       required this.imgUrl,
       this.collapsedHeight,
       this.flexibleSpace,
       this.bottom,
+      this.icon,
       this.pinned = false,
       this.elevation = 10,
       this.expandedHeight = 250,
-      this.titleTextStyle =
-          const TextStyle(fontSize: 25, fontWeight: FontWeight.w900),
+      this.titleTextStyle = const TextStyle(
+          fontSize: 25, fontWeight: FontWeight.w900, color: Colors.white),
       this.shape = const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(30))),
       this.titleString = ''});
@@ -27,6 +30,8 @@ class CustomAppBar extends StatelessWidget {
   final Widget? flexibleSpace;
   final PreferredSizeWidget? bottom;
   final double? collapsedHeight;
+  final Widget? icon;
+  final ScrollController scrollController;
 
   @override
   Widget build(BuildContext context) => SliverAppBar(
@@ -40,9 +45,12 @@ class CustomAppBar extends StatelessWidget {
       centerTitle: true,
       flexibleSpace: flexibleSpace ??
           FlexibleSpaceBar(
-              background: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Image.asset(imgUrl)),
+              background: FadeOnScroll(
+                  zeroOpacityOffset: 150,
+                  scrollController: scrollController,
+                  child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: icon ?? Image.asset(imgUrl))),
               centerTitle: true,
               title: Text(titleString,
                   textAlign: TextAlign.center, style: titleTextStyle),

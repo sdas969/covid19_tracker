@@ -47,6 +47,7 @@ final InputDecorationTheme darkInputDecorationTheme = InputDecorationTheme(
     hintStyle: const TextStyle(color: Colors.white));
 
 final InputDecorationTheme lightInputDecorationTheme = InputDecorationTheme(
+    filled: true,
     prefixIconColor: Colors.white,
     fillColor: Colors.white.withOpacity(0.2),
     iconColor: Colors.white,

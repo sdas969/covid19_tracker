@@ -13,18 +13,31 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late ScrollController _scrollController;
+
   @override
   void initState() {
+    _scrollController = ScrollController();
     super.initState();
   }
 
   @override
-  Widget build(BuildContext context) => const Scaffold(
-          body: CustomScrollView(physics: BouncingScrollPhysics(), slivers: [
-        CustomAppBar(
-            actions: [LocationToggleButton(), ThemeToggleButton()],
-            imgUrl: 'assets/Corona.png',
-            titleString: appTitle),
-        AppContent()
-      ]));
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+          body: CustomScrollView(
+              controller: _scrollController,
+              physics: const BouncingScrollPhysics(),
+              slivers: [
+            CustomAppBar(
+                scrollController: _scrollController,
+                actions: const [LocationToggleButton(), ThemeToggleButton()],
+                imgUrl: 'assets/Corona.png',
+                titleString: appTitle),
+            const AppContent()
+          ]));
 }
