@@ -1,3 +1,4 @@
+import 'package:covid19_tracker/constants/assets.dart';
 import 'package:covid19_tracker/constants/home_screen.dart';
 import 'package:covid19_tracker/constants/universal.dart';
 import 'package:covid19_tracker/models/country.dart';
@@ -68,7 +69,7 @@ class _SearchDialogState extends State<SearchDialog> {
                     flexibleSpace: LayoutBuilder(
                         builder: (context, constraints) =>
                             getBackground(constraints)),
-                    imgUrl: 'assets/Corona.png',
+                    imgUrl: coronaImg,
                     titleString: 'Search'),
                 const SliverToBoxAdapter(child: SizedBox(height: 20)),
                 SliverList.builder(
