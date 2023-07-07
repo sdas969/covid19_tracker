@@ -1,5 +1,5 @@
 import 'package:covid19_tracker/constants/assets.dart';
-import 'package:covid19_tracker/views/about_screen/about_content.dart';
+import 'package:covid19_tracker/views/prevention_screen/prevention_content.dart';
 import 'package:covid19_tracker/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -36,7 +36,7 @@ class _PreventionScreenState extends State<PreventionScreen> {
               scrollController: _scrollController,
               imgUrl: preventionImg,
               titleString: 'Prevention'),
-          const AboutContent()
+          const PreventionContent()
         ]));
   }
 }

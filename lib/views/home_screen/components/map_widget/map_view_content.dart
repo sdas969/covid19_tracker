@@ -44,7 +44,7 @@ class MapViewContent extends StatelessWidget {
                         countryData.states![index].cases!.toDouble(),
                     bubbleColorValueMapper: (int index) =>
                         Colors.red.withOpacity(0.5),
-                    dataCount: countryData.states!.length))
+                    dataCount: countryData.states!.length)),
           ]);
         }));
   }
