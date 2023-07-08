@@ -13,7 +13,7 @@ class PreventionContent extends StatelessWidget {
         ResponsiveBuilder(
             child: Row(
               children: [
-                Expanded(
+                const Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
