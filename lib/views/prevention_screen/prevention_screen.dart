@@ -27,16 +27,13 @@ class _PreventionScreenState extends State<PreventionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: CustomScrollView(
-            controller: _scrollController,
-            physics: const BouncingScrollPhysics(),
-            slivers: [
-          CustomAppBar(
-              pinned: true,
-              scrollController: _scrollController,
-              imgUrl: preventionImg,
-              titleString: 'Prevention'),
-          const PreventionContent()
-        ]));
+        body: CustomScrollView(controller: _scrollController, slivers: [
+      CustomAppBar(
+          pinned: true,
+          scrollController: _scrollController,
+          imgUrl: preventionImg,
+          titleString: 'Prevention'),
+      const PreventionContent()
+    ]));
   }
 }

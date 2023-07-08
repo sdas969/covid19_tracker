@@ -30,15 +30,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-          body: CustomScrollView(
-              controller: _scrollController,
-              physics: const BouncingScrollPhysics(),
-              slivers: [
-            CustomAppBar(
-                scrollController: _scrollController,
-                actions: const [LocationToggleButton(), ThemeToggleButton()],
-                imgUrl: coronaImg,
-                titleString: appTitle),
-            const AppContent()
-          ]));
+          body: CustomScrollView(controller: _scrollController, slivers: [
+        CustomAppBar(
+            scrollController: _scrollController,
+            actions: const [LocationToggleButton(), ThemeToggleButton()],
+            imgUrl: coronaImg,
+            titleString: appTitle),
+        const AppContent()
+      ]));
 }

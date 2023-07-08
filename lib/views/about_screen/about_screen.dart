@@ -25,16 +25,13 @@ class _AboutScreenState extends State<AboutScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-          body: CustomScrollView(
-              controller: _scrollController,
-              physics: const BouncingScrollPhysics(),
-              slivers: [
-            CustomAppBar(
-                pinned: true,
-                scrollController: _scrollController,
-                icon: const Icon(Icons.info, size: 100, color: Colors.white),
-                imgUrl: '',
-                titleString: 'About'),
-            const AboutContent()
-          ]));
+          body: CustomScrollView(controller: _scrollController, slivers: [
+        CustomAppBar(
+            pinned: true,
+            scrollController: _scrollController,
+            icon: const Icon(Icons.info, size: 100, color: Colors.white),
+            imgUrl: '',
+            titleString: 'About'),
+        const AboutContent()
+      ]));
 }

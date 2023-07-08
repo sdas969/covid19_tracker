@@ -57,34 +57,30 @@ class _SearchDialogState extends State<SearchDialog> {
       child: ClipRRect(
           borderRadius: defaultBorderRadius,
           child: Scaffold(
-              body: CustomScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  controller: _scrollController,
-                  slivers: [
-                CustomAppBar(
-                    scrollController: _scrollController,
-                    expandedHeight: 300,
-                    collapsedHeight: 80,
-                    pinned: true,
-                    flexibleSpace: LayoutBuilder(
-                        builder: (context, constraints) =>
-                            getBackground(constraints)),
-                    imgUrl: coronaImg,
-                    titleString: 'Search'),
-                const SliverToBoxAdapter(child: SizedBox(height: 20)),
-                SliverList.builder(
-                    itemCount: widget.searchType == 1
-                        ? states.length
-                        : countries.length,
-                    itemBuilder: (context, index) => ListTile(
-                        title: Text(widget.searchType == 1
-                            ? states[index]
-                            : countries[index]),
-                        onTap: () => widget.searchType == 1
-                            ? handleLocationChange(
-                                _countriesDataProvider, states[index])
-                            : handleCountryChange(countries[index])))
-              ]))));
+              body: CustomScrollView(controller: _scrollController, slivers: [
+            CustomAppBar(
+                scrollController: _scrollController,
+                expandedHeight: 300,
+                collapsedHeight: 80,
+                pinned: true,
+                flexibleSpace: LayoutBuilder(
+                    builder: (context, constraints) =>
+                        getBackground(constraints)),
+                imgUrl: coronaImg,
+                titleString: 'Search'),
+            const SliverToBoxAdapter(child: SizedBox(height: 20)),
+            SliverList.builder(
+                itemCount:
+                    widget.searchType == 1 ? states.length : countries.length,
+                itemBuilder: (context, index) => ListTile(
+                    title: Text(widget.searchType == 1
+                        ? states[index]
+                        : countries[index]),
+                    onTap: () => widget.searchType == 1
+                        ? handleLocationChange(
+                            _countriesDataProvider, states[index])
+                        : handleCountryChange(countries[index])))
+          ]))));
 
   FlexibleSpaceBar getBackground(BoxConstraints constraints) {
     return FlexibleSpaceBar(

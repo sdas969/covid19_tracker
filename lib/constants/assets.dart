@@ -6,3 +6,4 @@ const String maskImg = 'assets/mask.png';
 const String preventionImg = 'assets/prevention.png';
 const String touchImg = 'assets/touch.png';
 const String washImg = 'assets/wash.png';
+const String coronaLottie = 'assets/lottie/corona.json';

@@ -11,5 +11,5 @@ const appDragDevices = {
   PointerDeviceKind.stylus,
   PointerDeviceKind.unknown
 };
-final appScrollBehaviour =
-    const MaterialScrollBehavior().copyWith(dragDevices: appDragDevices);
+final appScrollBehaviour = const MaterialScrollBehavior().copyWith(
+    dragDevices: appDragDevices, physics: const BouncingScrollPhysics());

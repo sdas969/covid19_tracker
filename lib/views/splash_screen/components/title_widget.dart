@@ -13,6 +13,7 @@ class TitleWidget extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: Center(
                 child: Text(appTitle,
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: textFontSize, fontWeight: FontWeight.w900))));
       }));
