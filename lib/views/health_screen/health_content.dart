@@ -2,7 +2,6 @@ import 'package:covid19_tracker/constants/health_screen.dart';
 import 'package:covid19_tracker/views/health_screen/health_header.dart';
 import 'package:covid19_tracker/views/health_screen/prevention_tab_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 
 class HealthContent extends StatefulWidget {
