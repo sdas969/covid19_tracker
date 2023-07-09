@@ -1,16 +1,16 @@
 import 'package:covid19_tracker/constants/assets.dart';
-import 'package:covid19_tracker/views/prevention_screen/prevention_content.dart';
+import 'package:covid19_tracker/views/health_screen/health_content.dart';
 import 'package:covid19_tracker/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 
-class PreventionScreen extends StatefulWidget {
-  const PreventionScreen({super.key});
+class HealthScreen extends StatefulWidget {
+  const HealthScreen({super.key});
 
   @override
-  State<PreventionScreen> createState() => _PreventionScreenState();
+  State<HealthScreen> createState() => _HealthScreenState();
 }
 
-class _PreventionScreenState extends State<PreventionScreen> {
+class _HealthScreenState extends State<HealthScreen> {
   late ScrollController _scrollController;
   @override
   void initState() {
@@ -32,8 +32,8 @@ class _PreventionScreenState extends State<PreventionScreen> {
           pinned: true,
           scrollController: _scrollController,
           imgUrl: preventionImg,
-          titleString: 'Prevention'),
-      const PreventionContent()
+          titleString: 'Health'),
+      const HealthContent()
     ]));
   }
 }

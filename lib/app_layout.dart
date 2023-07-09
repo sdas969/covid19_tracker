@@ -1,6 +1,6 @@
 import 'package:covid19_tracker/views/about_screen/about_screen.dart';
 import 'package:covid19_tracker/views/home_screen/home_screen.dart';
-import 'package:covid19_tracker/views/prevention_screen/prevention_screen.dart';
+import 'package:covid19_tracker/views/health_screen/health_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:fluttericon/rpg_awesome_icons.dart';
@@ -24,5 +24,5 @@ class _AppLayoutState extends State<AppLayout> with TickerProviderStateMixin {
             Tab(icon: Icon(Icons.info))
           ]),
           body: TabBarView(
-              children: [HomeScreen(), PreventionScreen(), AboutScreen()])));
+              children: [HomeScreen(), HealthScreen(), AboutScreen()])));
 }
