@@ -1,11 +1,13 @@
 import 'package:covid19_tracker/constants/assets.dart';
-import 'package:covid19_tracker/models/health_model.dart';
+import 'package:covid19_tracker/models/description_model.dart';
 
 final preventionTabsContentList = [
-  HaelthTab(description: 'description', img: contactImg, title: 'Contact'),
-  HaelthTab(description: 'description', img: coverImg, title: 'Cover'),
-  HaelthTab(description: 'description', img: disinfectImg, title: 'Disinfect'),
-  HaelthTab(description: 'description', img: maskImg, title: 'Mask'),
-  HaelthTab(description: 'description', img: touchImg, title: 'Touch'),
-  HaelthTab(description: 'description', img: washImg, title: 'Wash')
+  DescriptionModel(
+      description: 'description', img: contactImg, title: 'Contact'),
+  DescriptionModel(description: 'description', img: coverImg, title: 'Cover'),
+  DescriptionModel(
+      description: 'description', img: disinfectImg, title: 'Disinfect'),
+  DescriptionModel(description: 'description', img: maskImg, title: 'Mask'),
+  DescriptionModel(description: 'description', img: touchImg, title: 'Touch'),
+  DescriptionModel(description: 'description', img: washImg, title: 'Wash')
 ];

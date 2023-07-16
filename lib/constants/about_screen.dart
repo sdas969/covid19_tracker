@@ -1,4 +1,5 @@
 import 'package:covid19_tracker/models/button_model.dart';
+import 'package:covid19_tracker/models/description_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_octicons/flutter_octicons.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
@@ -36,6 +37,26 @@ final List<ButtonModel> buttonList = [
       label: 'E-mail',
       onPressed: () => _launchURL(email),
       color: const Color(0xffce3c30))
+];
+
+final List<DescriptionModel> aboutList = [
+  DescriptionModel(
+      description:
+          'To ensure the accuracy and reliability of its data, the app relies on the disease.sh API, which aggregates information from reputable sources, including the World Health Organization (WHO) and national health agencies. A Python script runs on a regular schedule, fetching the latest stats and updating the Firebase database. This approach removes any dependencies that could potentially cause app failures, allowing the app to deliver up-to-date information consistently.',
+      title: 'Data Reliability'),
+  DescriptionModel(
+      description:
+          'The app understands that staying informed during a pandemic should be effortless. Its dedicated team has optimized the app'
+          's backend to deliver a smooth user experience. The scheduled job not only updates real-time data but also fine-tunes historical information. This careful curation ensures that you experience uninterrupted browsing with an intact trend history, without any stutters in the front-end.',
+      title: 'Seamless User Experience'),
+  DescriptionModel(
+      description:
+          'Your privacy is paramount to the app. Its data collection and usage are outlined in detail in its privacy policy. The app takes all necessary measures to safeguard your personal information and handle it responsibly.',
+      title: 'Data Privacy and Security'),
+  DescriptionModel(
+      description:
+          'The app is committed to making itself better every day. Your feedback and suggestions play a crucial role in its evolution. Feel free to reach out to its support team at [support@email.com] if you have any questions or ideas to share.',
+      title: 'Continuous Improvement')
 ];
 
 _launchURL(String url) async {

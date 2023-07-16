@@ -18,7 +18,7 @@ class PreventionTabBar extends StatelessWidget {
           (index) => Tab(
                   child: Column(children: [
                 Expanded(
-                    child: Image.asset(preventionTabsContentList[index].img)),
+                    child: Image.asset(preventionTabsContentList[index].img!)),
                 Text(preventionTabsContentList[index].title)
               ]))));
 }
