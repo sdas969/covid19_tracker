@@ -1,4 +1,4 @@
-import 'package:covid19_tracker/views/about_screen/about_content.dart';
+import 'package:covid19_tracker/views/about_screen/components/about_content.dart';
 import 'package:covid19_tracker/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 

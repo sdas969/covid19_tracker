@@ -15,7 +15,7 @@ final List<ButtonModel> buttonList = [
       iconData: OctIcons.repo_16,
       label: 'Repository',
       onPressed: () => _launchURL(repoURL),
-      color: Colors.green),
+      color: const Color(0xff238636)),
   ButtonModel(
       iconData: FontAwesome5.github,
       label: '@sdas969',
@@ -25,7 +25,17 @@ final List<ButtonModel> buttonList = [
       iconData: FontAwesome.database,
       label: 'disease.sh',
       onPressed: () => _launchURL(apiURL),
-      color: Colors.blue)
+      color: Colors.blue),
+  ButtonModel(
+      iconData: FontAwesome.linkedin_squared,
+      label: 'Smarajit Das',
+      onPressed: () => _launchURL(linkedinURL),
+      color: const Color(0xff0077b5)),
+  ButtonModel(
+      iconData: FontAwesome.mail,
+      label: 'E-mail',
+      onPressed: () => _launchURL(email),
+      color: const Color(0xffce3c30))
 ];
 
 _launchURL(String url) async {
@@ -42,3 +52,5 @@ const repoURL =
     'https://github.com/sdas969/Flutter/tree/master/covid19_tracker';
 const githubURL = 'https://github.com/sdas969';
 const apiURL = 'https://disease.sh/';
+const linkedinURL = 'https://linkedin.com/in/sdas969/';
+const email = 'mailto:sdas9696969@gmail.com';
