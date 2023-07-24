@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 final defaultBorderRadius = BorderRadius.circular(20);
@@ -13,3 +14,6 @@ const appDragDevices = {
 };
 final appScrollBehaviour = const MaterialScrollBehavior().copyWith(
     dragDevices: appDragDevices, physics: const BouncingScrollPhysics());
+bool renderLottieCheck() => !(kIsWeb &&
+    (defaultTargetPlatform == TargetPlatform.android ||
+        defaultTargetPlatform == TargetPlatform.iOS));

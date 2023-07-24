@@ -1,4 +1,5 @@
 import 'package:covid19_tracker/constants/assets.dart';
+import 'package:covid19_tracker/constants/universal.dart';
 import 'package:covid19_tracker/views/about_screen/components/subtitle_widget.dart';
 import 'package:covid19_tracker/views/about_screen/components/title_widget.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +31,8 @@ class AboutHeaderWidget extends StatelessWidget {
                 md: 4,
                 lg: 3,
                 xl: 3,
-                child: Lottie.asset(coronaLottie))
+                child: renderLottieCheck()
+                    ? Lottie.asset(coronaLottie, frameRate: FrameRate.max)
+                    : Image.asset(coronaImg))
           ]);
 }

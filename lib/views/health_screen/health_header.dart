@@ -1,4 +1,5 @@
 import 'package:covid19_tracker/constants/assets.dart';
+import 'package:covid19_tracker/constants/universal.dart';
 import 'package:covid19_tracker/views/health_screen/health_header_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -26,7 +27,11 @@ class HealthHeader extends StatelessWidget {
                 md: 3,
                 lg: 3,
                 xl: 3,
-                child: Lottie.asset(preventionLottie,
-                    height: 200, alignment: Alignment.center))
+                child: renderLottieCheck()
+                    ? Lottie.asset(preventionLottie,
+                        frameRate: FrameRate.max,
+                        height: 200,
+                        alignment: Alignment.center)
+                    : Image.asset(preventionImg))
           ]);
 }
