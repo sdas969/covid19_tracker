@@ -55,7 +55,7 @@ final List<DescriptionModel> aboutList = [
       title: 'Data Privacy and Security'),
   DescriptionModel(
       description:
-          'The app is committed to making itself better every day. Your feedback and suggestions play a crucial role in its evolution. Feel free to reach out to its support team at [support@email.com] if you have any questions or ideas to share.',
+          'The app is committed to making itself better every day. Your feedback and suggestions play a crucial role in its evolution. Feel free to reach out to sdas9696969@gmail.com if you have any questions or ideas to share.',
       title: 'Continuous Improvement')
 ];
 

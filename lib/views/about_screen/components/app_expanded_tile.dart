@@ -31,6 +31,8 @@ class AppExpandedTile extends StatelessWidget {
                           title: Title(
                               color: Theme.of(context).colorScheme.primary,
                               child: Text(title)),
+                          expandedCrossAxisAlignment:
+                              CrossAxisAlignment.stretch,
                           children: [
                             Padding(
                                 padding: const EdgeInsets.all(16.0),

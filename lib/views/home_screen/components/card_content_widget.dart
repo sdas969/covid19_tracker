@@ -27,10 +27,16 @@ class CardContentWidget extends StatefulWidget {
 }
 
 class _CardContentWidgetState extends State<CardContentWidget> {
-  String formatData(BoxConstraints constraints) {
+  String formatData(
+      {required BoxConstraints constraints, int decimalCount = 2}) {
     bool isOverflowing = false;
     final textSpan = TextSpan(
-        text: widget.data[widget.state.name].toString() +
+        text: (widget.state.override
+                    ? (widget.data[widget.state.numerator] /
+                            widget.data[widget.state.denominator]) *
+                        (widget.state.isPercentage! ? 100 : 1)
+                    : widget.data[widget.state.name])
+                .toStringAsFixed(decimalCount) +
             (widget.state.override && widget.state.isPercentage! ? ' %' : ''),
         style: widget.textStyle);
     final textPainter = TextPainter(
@@ -39,33 +45,27 @@ class _CardContentWidgetState extends State<CardContentWidget> {
     final isOverflowingNow = textPainter.didExceedMaxLines;
     isOverflowing = isOverflowingNow;
     final formatter = NumberFormat.compact();
-
     if (widget.state.override) {
-      if (isOverflowing) {
+      if (decimalCount == 0 || !isOverflowing) {
         return ((widget.data[widget.state.numerator] /
                         widget.data[widget.state.denominator]) *
-                    (widget.state.isPercentage! ? 1 : 0) *
-                    100 as double)
-                .round()
-                .toStringAsFixed(0) +
+                    (widget.state.isPercentage! ? 100 : 1))
+                .toStringAsFixed(decimalCount) +
             (widget.state.isPercentage! ? ' %' : '');
       }
-      return ((widget.data[widget.state.numerator] /
-                      widget.data[widget.state.denominator]) *
-                  (widget.state.isPercentage! ? 1 : 0) *
-                  100 as double)
-              .toStringAsFixed(1) +
-          (widget.state.isPercentage! ? ' %' : '');
+
+      return formatData(
+          constraints: constraints, decimalCount: decimalCount - 1);
     }
     if (isOverflowing) {
       final formattedStat =
           formatter.format((widget.data[widget.state.name] as double));
       final formattedNum =
-          double.parse(formattedStat.substring(0, formattedStat.length - 1))
-              .round()
-              .toString();
+          double.tryParse(formattedStat.substring(0, formattedStat.length - 1));
+      final roundedNum =
+          (formattedNum != null) ? formattedNum.round().toString() : '';
       final formattedUnit = formattedStat[formattedStat.length - 1];
-      return formattedNum + formattedUnit;
+      return roundedNum + formattedUnit;
     }
     return widget.data[widget.state.name].toString();
   }
@@ -82,13 +82,17 @@ class _CardContentWidgetState extends State<CardContentWidget> {
         textBaseline: TextBaseline.alphabetic,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(child: LayoutBuilder(builder: (context, constraints) {
-            return Text(widget.isDataLoaded ? formatData(constraints) : '...',
-                maxLines: widget.maxLines,
-                overflow: widget.textOverflow,
-                textAlign: widget.textAlign,
-                style: widget.textStyle.copyWith(color: widget.state.color));
-          })),
+          Expanded(
+              child: LayoutBuilder(
+                  builder: (context, constraints) => Text(
+                      widget.isDataLoaded
+                          ? formatData(constraints: constraints)
+                          : '...',
+                      maxLines: widget.maxLines,
+                      overflow: widget.textOverflow,
+                      textAlign: widget.textAlign,
+                      style: widget.textStyle
+                          .copyWith(color: widget.state.color)))),
           if (widget.state.showIncrement)
             IncrementDecrementWidget(
                 change: widget.data[widget.state.subtitle],
