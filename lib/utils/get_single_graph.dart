@@ -18,7 +18,6 @@ ResponsiveGridCol getSingleGraph(
       md: layoutConfig.md,
       child: Center(
           child: SfCartesianChart(
-              key: const PageStorageKey('graph'),
               zoomPanBehavior: zoomPanBehavior,
               legend: getLegend(isSingle: true),
               primaryXAxis: dateTimeAxis,

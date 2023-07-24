@@ -31,7 +31,6 @@ class CombinedGraph extends StatelessWidget {
         return Center(
             child: SfCartesianChart(
                 margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-                key: const PageStorageKey('graph'),
                 zoomPanBehavior: zoomPanBehavior,
                 legend: getLegend(),
                 primaryXAxis: dateTimeAxis,
