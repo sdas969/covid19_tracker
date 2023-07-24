@@ -29,6 +29,7 @@ class GeoLocationDatabaseService {
       return await fetchGeoLocation(latitude, longitude);
     }
     final data = GeoLocation.fromJson(res);
+
     await FirebaseFirestore.instance
         .collection('locations')
         .doc(data.address!.country)
