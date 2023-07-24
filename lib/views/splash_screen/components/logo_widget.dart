@@ -13,5 +13,7 @@ class LogoWidget extends StatelessWidget {
           aspectRatio: 1.0,
           child: renderLottieCheck()
               ? Lottie.asset(coronaLottie, frameRate: FrameRate.max)
-              : Image.asset(coronaImg)));
+              : Padding(
+                  padding: const EdgeInsets.all(56.0),
+                  child: Image.asset(coronaImg))));
 }

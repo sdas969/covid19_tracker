@@ -14,6 +14,6 @@ const appDragDevices = {
 };
 final appScrollBehaviour = const MaterialScrollBehavior().copyWith(
     dragDevices: appDragDevices, physics: const BouncingScrollPhysics());
-bool renderLottieCheck() => !(kIsWeb &&
+bool renderLottieCheck() => (kIsWeb &&
     (defaultTargetPlatform == TargetPlatform.android ||
         defaultTargetPlatform == TargetPlatform.iOS));

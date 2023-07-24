@@ -32,6 +32,8 @@ class HealthHeader extends StatelessWidget {
                         frameRate: FrameRate.max,
                         height: 200,
                         alignment: Alignment.center)
-                    : Image.asset(preventionImg))
+                    : Padding(
+                        padding: const EdgeInsets.all(56.0),
+                        child: Image.asset(preventionImg)))
           ]);
 }

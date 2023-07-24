@@ -33,6 +33,8 @@ class AboutHeaderWidget extends StatelessWidget {
                 xl: 3,
                 child: renderLottieCheck()
                     ? Lottie.asset(coronaLottie, frameRate: FrameRate.max)
-                    : Image.asset(coronaImg))
+                    : Padding(
+                        padding: const EdgeInsets.all(56.0),
+                        child: Image.asset(coronaImg, fit: BoxFit.fitWidth)))
           ]);
 }
