@@ -67,10 +67,8 @@ _launchURL(String url) async {
   }
 }
 
-const downloadURL =
-    'https://github.com/sdas969/Flutter/blob/master/covid19_tracker/app-armeabi-v7a-release.apk';
-const repoURL =
-    'https://github.com/sdas969/Flutter/tree/master/covid19_tracker';
+const downloadURL = 'https://github.com/sdas969/covid19_tracker/tree/main/apks';
+const repoURL = 'https://github.com/sdas969/covid19_tracker';
 const githubURL = 'https://github.com/sdas969';
 const apiURL = 'https://disease.sh/';
 const linkedinURL = 'https://linkedin.com/in/sdas969/';
