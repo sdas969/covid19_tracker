@@ -21,8 +21,10 @@ class AboutButton extends StatelessWidget {
       child: ElevatedButton.icon(
           onPressed: buttonData.onPressed,
           style: ElevatedButton.styleFrom(
+              alignment: Alignment.center,
               backgroundColor: buttonData.color,
-              padding: const EdgeInsets.all(20)),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 20, horizontal: 12)),
           icon: Icon(buttonData.iconData, color: Colors.white),
           label: Text(buttonData.label,
               style: const TextStyle(color: Colors.white))));
