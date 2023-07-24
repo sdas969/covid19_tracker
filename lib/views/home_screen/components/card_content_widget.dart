@@ -27,16 +27,27 @@ class CardContentWidget extends StatefulWidget {
 }
 
 class _CardContentWidgetState extends State<CardContentWidget> {
-  String formatData(bool isOverflowing) {
+  String formatData(BoxConstraints constraints) {
+    bool isOverflowing = false;
+    final textSpan = TextSpan(
+        text: widget.data[widget.state.name].toString() +
+            (widget.state.override && widget.state.isPercentage! ? ' %' : ''),
+        style: widget.textStyle);
+    final textPainter = TextPainter(
+        text: textSpan, textDirection: Directionality.of(context), maxLines: 1);
+    textPainter.layout(maxWidth: constraints.maxWidth);
+    final isOverflowingNow = textPainter.didExceedMaxLines;
+    isOverflowing = isOverflowingNow;
     final formatter = NumberFormat.compact();
 
     if (widget.state.override) {
       if (isOverflowing) {
-        return formatter.format(((widget.data[widget.state.numerator] /
+        return ((widget.data[widget.state.numerator] /
                         widget.data[widget.state.denominator]) *
                     (widget.state.isPercentage! ? 1 : 0) *
                     100 as double)
-                .round()) +
+                .round()
+                .toStringAsFixed(0) +
             (widget.state.isPercentage! ? ' %' : '');
       }
       return ((widget.data[widget.state.numerator] /
@@ -47,8 +58,14 @@ class _CardContentWidgetState extends State<CardContentWidget> {
           (widget.state.isPercentage! ? ' %' : '');
     }
     if (isOverflowing) {
-      return formatter
-          .format((widget.data[widget.state.name] as double).round());
+      final formattedStat =
+          formatter.format((widget.data[widget.state.name] as double));
+      final formattedNum =
+          double.parse(formattedStat.substring(0, formattedStat.length - 1))
+              .round()
+              .toString();
+      final formattedUnit = formattedStat[formattedStat.length - 1];
+      return formattedNum + formattedUnit;
     }
     return widget.data[widget.state.name].toString();
   }
@@ -66,22 +83,7 @@ class _CardContentWidgetState extends State<CardContentWidget> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(child: LayoutBuilder(builder: (context, constraints) {
-            bool isOverflowing = false;
-            final textSpan = TextSpan(
-                text: widget.data[widget.state.name].toString() +
-                    (widget.state.override && widget.state.isPercentage!
-                        ? ' %'
-                        : ''),
-                style: widget.textStyle);
-            final textPainter = TextPainter(
-                text: textSpan,
-                textDirection: Directionality.of(context),
-                maxLines: 1);
-            textPainter.layout(maxWidth: constraints.maxWidth);
-            final isOverflowingNow = textPainter.didExceedMaxLines;
-            isOverflowing = isOverflowingNow;
-
-            return Text(widget.isDataLoaded ? formatData(isOverflowing) : '...',
+            return Text(widget.isDataLoaded ? formatData(constraints) : '...',
                 maxLines: widget.maxLines,
                 overflow: widget.textOverflow,
                 textAlign: widget.textAlign,
