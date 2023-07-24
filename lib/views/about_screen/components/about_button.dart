@@ -27,5 +27,7 @@ class AboutButton extends StatelessWidget {
                   const EdgeInsets.symmetric(vertical: 20, horizontal: 12)),
           icon: Icon(buttonData.iconData, color: Colors.white),
           label: Text(buttonData.label,
-              style: const TextStyle(color: Colors.white))));
+              maxLines: 1,
+              style: const TextStyle(
+                  color: Colors.white, overflow: TextOverflow.ellipsis))));
 }

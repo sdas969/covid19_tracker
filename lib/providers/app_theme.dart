@@ -13,9 +13,19 @@ class AppThemeProvider extends ChangeNotifier {
     _prefs = await SharedPreferences.getInstance();
     _appThemeCode = _prefs!.containsKey('appThemeCode')
         ? _prefs!.getInt('appThemeCode')
-        : 1;
+        : (isDarkMode() ? 1 : 0);
     _prefs!.setInt('appThemeCode', _appThemeCode!);
     setAppTheme(_appThemeCode!);
+  }
+
+  bool isDarkMode() {
+    final darkMode =
+        WidgetsBinding.instance.platformDispatcher.platformBrightness;
+    if (darkMode == Brightness.dark) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   setAppTheme(int themeCode) {
