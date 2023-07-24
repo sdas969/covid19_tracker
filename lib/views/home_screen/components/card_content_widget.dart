@@ -54,7 +54,7 @@ class _CardContentWidgetState extends State<CardContentWidget> {
                       widget.data[widget.state.denominator]) *
                   (widget.state.isPercentage! ? 1 : 0) *
                   100 as double)
-              .toStringAsFixed(2) +
+              .toStringAsFixed(1) +
           (widget.state.isPercentage! ? ' %' : '');
     }
     if (isOverflowing) {
